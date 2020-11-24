@@ -1,0 +1,60 @@
+name: openjfx
+title: OpenJFX
+summary: JavaFX cross-platform application framework
+description: |
+  OpenJFX is the open-source project for JavaFX development.
+
+  JavaFX is a set of graphics and media APIs that enables Java developers to design, create, test, debug, and deploy rich client applications that operate consistently across diverse platforms.
+
+  This package provides the most recent JavaFX SDK, JMODs, API documentation, and source code. With this package and OpenJDK 11 or later, you can edit, compile, run, debug, and package your own JavaFX application using the latest features and bug fixes. To get started, see the README file on GitHub (https://github.com/jgneff/openjfx/README.md).
+version: '16.0.0'
+license: (GPL-2.0 WITH Classpath-exception-2.0)
+
+base: core18
+grade: devel
+confinement: strict
+
+architectures:
+- build-on: amd64
+
+apps:
+  openjfx:
+    command: bin/export.sh
+
+parts:
+  dev:
+    plugin: dump
+    source: .
+    stage: [bin]
+
+  jfx:
+    plugin: gradle
+    gradle-options:
+    - -PJDK_DOCS=file:///usr/share/doc/openjdk-11-jre-headless/api/
+    - sdk
+    - jmods
+    - javadoc
+    source: https://github.com/openjdk/jfx.git
+    source-depth: 1
+    build-packages:
+    - ant
+    - pkg-config
+    - libgtk2.0-dev
+    - libgtk-3-dev
+    - libxtst-dev
+    - openjdk-11-doc
+    build-environment:
+    - JAVA_HOME: "/usr/lib/jvm/java-11-openjdk-$SNAP_ARCH"
+    - JDK_HOME: "$JAVA_HOME"
+    override-build: |
+      chmod +x gradlew
+      snapcraftctl build
+      cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL/
+    organize:
+      javadoc: sdk/doc
+    stage: [sdk, jmods]
+    override-prime: |
+      snapcraftctl prime
+      mkdir -p sdk/src
+      cd sdk/src; jar -xf ../lib/src.zip
+      rm ../lib/src.zip
