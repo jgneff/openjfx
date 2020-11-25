@@ -44,7 +44,7 @@ Once defined, you can use these variables in the arguments to the `java`, `javac
 The Snap package includes the following directories:
 
 * `/snap/openjfx/current/jmods` - JMOD files for `jlink`
-* `/snap/openjfx/current/sdk/doc` - API documentation
+* `/snap/openjfx/current/sdk/api` - API documentation
 * `/snap/openjfx/current/sdk/lib` - Modular JAR files and native libraries
 * `/snap/openjfx/current/sdk/src` - Java source files
 
@@ -58,12 +58,12 @@ $ sudo apt install default-jdk openjfx
 
 That goal, if possible, will take some time. Meanwhile, this Snap package can provide a temporary solution by building all of JavaFX for at least those architectures where OpenJDK is available:
 
-| Package   | amd64 | arm64 | armhf | ppc64el | s390x | Notes |
-| --------- |:-----:|:-----:|:-----:|:-------:|:-----:|:----- |
-| Debian    | ❌ | ❌ | ❌ | ❌ | ❌ | Only JavaFX 11 |
-| Fedora    | ❌ | ❌ | ❌ | ❌ | ❌ | Only JavaFX 11 |
-| Snap now  | ✔️ | ❌ | ❌ | ❌ | ❌ | Latest desktop release |
-| Snap goal | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | Latest desktop + embedded |
+| Package   | amd64 | arm64 | armhf | ppc64el | s390x | Release |
+| --------- |:-----:|:-----:|:-----:|:-------:|:-----:|:------- |
+| Debian    | ❌ | ❌ | ❌ | ❌ | ❌ | Only JavaFX 11 desktop |
+| Fedora    | ❌ | ❌ | ❌ | ❌ | ❌ | Only JavaFX 11 desktop |
+| Snap now  | ✔️ | ❌ | ❌ | ❌ | ❌ | Latest JavaFX desktop |
+| Snap goal | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | Latest JavaFX desktop + embedded |
 
 If you share in this goal, I welcome your help and support.
 

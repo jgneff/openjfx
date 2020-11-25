@@ -1,12 +1,23 @@
 name: openjfx
 title: OpenJFX
-summary: JavaFX cross-platform application framework
+summary: JavaFX cross-platform application framework for Java
 description: |
-  OpenJFX is the open-source project for JavaFX development.
+  OpenJFX is the open-source project that develops JavaFX.
 
-  JavaFX is a set of graphics and media APIs that enables Java developers to design, create, test, debug, and deploy rich client applications that operate consistently across diverse platforms.
+  JavaFX is a set of graphics and media APIs that enables Java
+  developers to design, create, test, debug, and deploy rich client
+  applications that operate consistently across diverse platforms.
 
-  This package provides the latest modular JARs, native libraries, JMOD archives, API documentation, and source code of JavaFX. With this package and OpenJDK 11 or later, you can compile, run, debug, and package your JavaFX application using the latest features and bug fixes. To get started, see README file for this package on GitHub (https://github.com/jgneff/openjfx).
+  This package provides the latest modular JARs, native libraries, JMOD
+  archives, API documentation, and source code of JavaFX. With this
+  package and OpenJDK 11 or later, you have all you need to compile,
+  run, debug, document, link, and package your JavaFX application
+  with the most recent features and bug fixes.
+
+  To get started, see the README file for this package on GitHub
+  (https://github.com/jgneff/openjfx).
+
+  Java and JavaFX are registered trademarks of Oracle.
 version: '16.0.0'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
@@ -52,10 +63,9 @@ parts:
       snapcraftctl build
       cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL/
     organize:
-      javadoc: sdk/doc
+      javadoc: sdk/api
     stage: [jmods, sdk]
     override-prime: |
       snapcraftctl prime
       mkdir -p sdk/src
       cd sdk/src; jar -xf ../lib/src.zip
-      rm ../lib/src.zip
