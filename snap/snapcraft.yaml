@@ -6,7 +6,7 @@ description: |
 
   JavaFX is a set of graphics and media APIs that enables Java developers to design, create, test, debug, and deploy rich client applications that operate consistently across diverse platforms.
 
-  This package provides the most recent JavaFX SDK, JMODs, API documentation, and source code. With this package and OpenJDK 11 or later, you can edit, compile, run, debug, and package your own JavaFX application using the latest features and bug fixes. To get started, see the README file on GitHub (https://github.com/jgneff/openjfx/README.md).
+  This package provides the latest modular JARs, native libraries, JMOD archives, API documentation, and source code of JavaFX. With this package and OpenJDK 11 or later, you can compile, run, debug, and package your JavaFX application using the latest features and bug fixes. To get started, see README file for this package on GitHub (https://github.com/jgneff/openjfx).
 version: '16.0.0'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
@@ -22,9 +22,10 @@ apps:
     command: bin/export.sh
 
 parts:
-  dev:
+  app:
     plugin: dump
-    source: .
+    source: https://github.com/jgneff/openjfx.git
+    source-depth: 1
     stage: [bin]
 
   jfx:
@@ -37,22 +38,22 @@ parts:
     source: https://github.com/openjdk/jfx.git
     source-depth: 1
     build-packages:
-    - ant
+    - openjdk-11-jdk-headless
     - pkg-config
     - libgtk2.0-dev
-    - libgtk-3-dev
     - libxtst-dev
+    - libgtk-3-dev
     - openjdk-11-doc
     build-environment:
-    - JAVA_HOME: "/usr/lib/jvm/java-11-openjdk-$SNAP_ARCH"
-    - JDK_HOME: "$JAVA_HOME"
+    - JAVA_HOME: /usr/lib/jvm/java-11-openjdk-$SNAP_ARCH
+    - JDK_HOME: $JAVA_HOME
     override-build: |
       chmod +x gradlew
       snapcraftctl build
       cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL/
     organize:
       javadoc: sdk/doc
-    stage: [sdk, jmods]
+    stage: [jmods, sdk]
     override-prime: |
       snapcraftctl prime
       mkdir -p sdk/src
