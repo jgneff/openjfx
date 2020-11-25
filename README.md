@@ -62,8 +62,8 @@ That goal, if possible, will take some time. Meanwhile, this Snap package can pr
 | --------- |:-----:|:-----:|:-----:|:-------:|:-----:|:----- |
 | Debian    | ❌ | ❌ | ❌ | ❌ | ❌ | Only JavaFX 11 |
 | Fedora    | ❌ | ❌ | ❌ | ❌ | ❌ | Only JavaFX 11 |
-| Snap now  | ✅ | ❌ | ❌ | ❌ | ❌ | Latest desktop release |
-| Snap goal | ✅ | ✅ | ✅ | ✅ | ✅ | Latest desktop + embedded |
+| Snap now  | ✔️ | ❌ | ❌ | ❌ | ❌ | Latest desktop release |
+| Snap goal | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | Latest desktop + embedded |
 
 If you share in this goal, I welcome your help and support.
 
