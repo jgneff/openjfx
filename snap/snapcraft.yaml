@@ -14,11 +14,12 @@ description: |
   run, debug, document, link, and package your JavaFX application
   with the most recent features and bug fixes.
 
-  To get started, see the README file for this package on GitHub
-  (https://github.com/jgneff/openjfx).
+  To get started, see the README file for this package on GitHub:
+
+  https://github.com/jgneff/openjfx
 
   Java and JavaFX are registered trademarks of Oracle.
-version: '16.0.0'
+version: '16+4'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
 base: core18
@@ -48,6 +49,7 @@ parts:
     - javadoc
     source: https://github.com/openjdk/jfx.git
     source-depth: 1
+    source-branch: $SNAPCRAFT_PROJECT_VERSION
     build-packages:
     - openjdk-11-jdk-headless
     - pkg-config
