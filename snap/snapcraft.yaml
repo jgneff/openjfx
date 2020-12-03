@@ -19,7 +19,7 @@ description: |
   https://github.com/jgneff/openjfx
 
   Java and JavaFX are registered trademarks of Oracle.
-version: '16+4'
+version: '16+5'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
 base: core18
