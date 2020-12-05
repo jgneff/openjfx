@@ -1,24 +1,41 @@
+# snapcraft.yaml - builds a Snap package of OpenJFX
+# Copyright (C) 2020 John Neffenger
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 name: openjfx
 title: OpenJFX
-summary: JavaFX cross-platform application framework for Java
+summary: JavaFX cross-platform application framework
 description: |
   OpenJFX is the open-source project that develops JavaFX.
 
   JavaFX is a set of graphics and media APIs that enables Java
-  developers to design, create, test, debug, and deploy rich client
-  applications that operate consistently across diverse platforms.
+  developers to create and deploy rich client applications that
+  operate consistently across diverse platforms.
 
   This package provides the latest modular JARs, native libraries, JMOD
   archives, API documentation, and source code of JavaFX. With this
   package and OpenJDK 11 or later, you have all you need to compile,
-  run, debug, document, link, and package your JavaFX application
+  run, debug, document, link, and package your JavaFX applications
   with the most recent features and bug fixes.
 
   To get started, see the README file for this package on GitHub:
 
   https://github.com/jgneff/openjfx
 
-  Java and JavaFX are registered trademarks of Oracle.
+  Java, JavaFX, and OpenJDK are trademarks or registered trademarks
+  of Oracle and/or its affiliates.
 version: '16+5'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
@@ -31,7 +48,7 @@ architectures:
 
 apps:
   openjfx:
-    command: bin/export.sh
+    command: bin/openjfx.sh
 
 parts:
   app:
@@ -41,29 +58,24 @@ parts:
     stage: [bin]
 
   jfx:
-    plugin: gradle
-    gradle-options:
-    - -PJDK_DOCS=file:///usr/share/doc/openjdk-11-jre-headless/api/
-    - sdk
-    - jmods
-    - javadoc
+    plugin: nil
     source: https://github.com/openjdk/jfx.git
     source-depth: 1
     source-branch: $SNAPCRAFT_PROJECT_VERSION
     build-packages:
-    - openjdk-11-jdk-headless
+    - default-jdk-headless
+    - default-jdk-doc
     - pkg-config
     - libgtk2.0-dev
     - libxtst-dev
     - libgtk-3-dev
-    - openjdk-11-doc
+    - libxxf86vm-dev
     build-environment:
-    - JAVA_HOME: /usr/lib/jvm/java-11-openjdk-$SNAP_ARCH
-    - JDK_HOME: $JAVA_HOME
+    - JAVA_HOME: /usr/lib/jvm/default-java
     override-build: |
       chmod +x gradlew
-      snapcraftctl build
-      cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL/
+      ./gradlew -PJDK_DOCS="file://$JAVA_HOME/docs/api" sdk jmods javadoc
+      cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL
     organize:
       javadoc: sdk/api
     stage: [jmods, sdk]
