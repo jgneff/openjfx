@@ -58,7 +58,12 @@ parts:
     stage: [bin]
 
   jfx:
-    plugin: nil
+    plugin: gradle
+    gradle-options:
+    - -PJDK_DOCS=file:///usr/lib/jvm/default-java/docs/api
+    - sdk
+    - jmods
+    - javadoc
     source: https://github.com/openjdk/jfx.git
     source-depth: 1
     source-branch: $SNAPCRAFT_PROJECT_VERSION
@@ -74,7 +79,7 @@ parts:
     - JAVA_HOME: /usr/lib/jvm/default-java
     override-build: |
       chmod +x gradlew
-      ./gradlew -PJDK_DOCS="file://$JAVA_HOME/docs/api" sdk jmods javadoc
+      snapcraftctl build
       cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL
     organize:
       javadoc: sdk/api
