@@ -36,11 +36,11 @@ description: |
 
   Java, JavaFX, and OpenJDK are trademarks or registered trademarks
   of Oracle and/or its affiliates.
-version: '16+5'
+version: '15.0.1+1'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
 base: core18
-grade: devel
+grade: stable
 confinement: strict
 
 architectures:
