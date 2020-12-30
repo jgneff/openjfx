@@ -68,7 +68,7 @@ Once defined, you can use these variables in arguments to the `java`, `javac`, `
 Ultimately, I would like to see the latest OpenJFX available from the package repositories of all Linux distributions. Then on Ubuntu 20.04 LTS, for example, you could install it with the command:
 
 ```console
-$ sudo apt install openjfx-15-sdk
+$ sudo apt install openjfx-15
 ```
 
 Until that time, this Snap package can be a temporary solution by providing the latest OpenJFX on as many Linux distributions and architectures as possible. I welcome your help and support.
@@ -127,6 +127,6 @@ When the build completes, you'll find the Snap package in the project's root dir
 
 ### License and Trademarks
 
-This project is licensed under the GNU General Public License v2.0 with the Classpath exception — the same license used by Oracle for the OpenJFX project. See the files [LICENSE](LICENSE) and [ADDITIONAL_LICENSE_INFO](ADDITIONAL_LICENSE_INFO) for details.
+This project is licensed under the GNU General Public License v2.0 with the Classpath exception, the same license used by Oracle for the OpenJFX project. See the files [LICENSE](LICENSE) and [ADDITIONAL_LICENSE_INFO](ADDITIONAL_LICENSE_INFO) for details.
 
-Java, JavaFX, and OpenJDK are trademarks or registered trademarks of Oracle and/or its affiliates. See the [TRADEMARK](TRADEMARK) file for details.
+Java, JavaFX, and OpenJDK are trademarks or registered trademarks of Oracle and/or its affiliates. See the file [TRADEMARK](TRADEMARK) for details.
