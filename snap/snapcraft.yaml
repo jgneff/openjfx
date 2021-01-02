@@ -49,15 +49,80 @@ architectures:
 apps:
   openjfx:
     command: bin/openjfx.sh
+  java:
+    command: jvm/bin/java
+    environment:
+      LC_ALL: C.UTF-8
+    plugs:
+    - home
+    - desktop
+    - desktop-legacy
+    - wayland
+    - unity7
+    - opengl
 
 parts:
-  app:
+  bin:
     plugin: dump
     source: https://github.com/jgneff/openjfx.git
     source-depth: 1
     stage: [bin]
 
+  lib:
+    plugin: nil
+    # Adds Snapcraft list of missing libraries plus
+    # libcanberra-gtk-module and libcanberra-gtk3-module
+    stage-packages:
+    - libasound2
+    - libatk-bridge2.0-0
+    - libatk1.0-0
+    - libatspi2.0-0
+    - libcairo-gobject2
+    - libcairo2
+    - libdatrie1
+    - libepoxy0
+    - libfontconfig1
+    - libfreetype6
+    - libfribidi0
+    - libgdk-pixbuf2.0-0
+    - libgl1
+    - libglvnd0
+    - libglx0
+    - libgraphite2-3
+    - libgtk-3-0
+    - libgtk2.0-0
+    - libharfbuzz0b
+    - libpango-1.0-0
+    - libpangocairo-1.0-0
+    - libpangoft2-1.0-0
+    - libpixman-1-0
+    - libpng16-16
+    - libthai0
+    - libwayland-client0
+    - libwayland-cursor0
+    - libwayland-egl1
+    - libx11-6
+    - libxau6
+    - libxcb-render0
+    - libxcb-shm0
+    - libxcb1
+    - libxcomposite1
+    - libxcursor1
+    - libxdamage1
+    - libxdmcp6
+    - libxext6
+    - libxfixes3
+    - libxi6
+    - libxinerama1
+    - libxkbcommon0
+    - libxrandr2
+    - libxrender1
+    - libxtst6
+    - libcanberra-gtk-module
+    - libcanberra-gtk3-module
+
   jfx:
+    after: [lib]
     plugin: nil
     source: https://github.com/openjdk/jfx.git
     source-branch: $SNAPCRAFT_PROJECT_VERSION
@@ -73,6 +138,7 @@ parts:
     build-environment:
     - JAVA_HOME: /snap/openjdk/current/jvm
     - JDK_DOCS: file:///snap/openjdk/current/jvm/docs/api
+    - BUILD_NUM: '5'
     override-build: |
       set -o xtrace
       getproxy () {
@@ -87,9 +153,51 @@ parts:
           getproxy "$https_proxy"
           https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
       fi
-      bash gradlew $http $https -PJDK_DOCS=$JDK_DOCS sdk jmods javadoc
+      bash gradlew $http $https -PRELEASE_SUFFIX="-snap" \
+          -PPROMOTED_BUILD_NUMBER=$BUILD_NUM \
+          -PJDK_DOCS=$JDK_DOCS sdk jmods javadoc
       cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL
       cd $SNAPCRAFT_PART_INSTALL; mkdir -p sdk/src
       cd sdk/src; $JAVA_HOME/bin/jar -xf ../lib/src.zip
     organize:
       javadoc: sdk/api
+
+  jvm:
+    after: [jfx]
+    plugin: nil
+    build-snaps:
+    - openjdk/latest/candidate
+    build-environment:
+    - JAVA_HOME: /snap/openjdk/current/jvm
+    override-build: |
+      set -o xtrace
+      rm -rf $SNAPCRAFT_PART_INSTALL/jvm
+      $JAVA_HOME/bin/jlink \
+          --strip-debug --no-header-files --no-man-pages \
+          --module-path $SNAPCRAFT_STAGE/jmods \
+          --add-modules javafx.controls,javafx.fxml \
+          --add-modules javafx.media,javafx.swing,javafx.web \
+          --output $SNAPCRAFT_PART_INSTALL/jvm
+
+  del:
+    after: [jvm]
+    plugin: nil
+    # Deletes files and links already available in the base core20 snap
+    override-prime: |
+      set -o xtrace
+      cd $SNAPCRAFT_PRIME
+      base=/snap/core20/current
+      list="etc lib* usr/lib usr/share"
+      find $list -type f -exec test -f "$base/{}" \; -delete
+      find $list -type l -exec test -L "$base/{}" \; -delete
+      find * -type d -empty -exec test -d "$base/{}" \; -delete
+
+layout:
+  # libGL error: MESA-LOADER: failed to open iris, swrast
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+  # Gtk-Message: Failed to load module "canberra-gtk-module"
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gtk-2.0/modules:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gtk-2.0/modules
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gtk-3.0/modules:
+    symlink: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gtk-3.0/modules
