@@ -138,7 +138,7 @@ parts:
     build-environment:
     - JAVA_HOME: /snap/openjdk/current/jvm
     - JDK_DOCS: file:///snap/openjdk/current/jvm/docs/api
-    - BUILD_NUM: '5'
+    - BUILD_NUM: '1'
     override-build: |
       set -o xtrace
       getproxy () {
