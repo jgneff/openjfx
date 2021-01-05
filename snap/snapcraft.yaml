@@ -1,5 +1,5 @@
 # snapcraft.yaml - builds a Snap package of OpenJFX
-# Copyright (C) 2020 John Neffenger
+# Copyright (C) 2020-2021 John Neffenger
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,6 +36,9 @@ description: |
 
   Java and OpenJDK are trademarks or registered trademarks of Oracle
   and/or its affiliates.
+
+# When the JavaFX release or build number changes, update the following:
+#   version, slots, parts.jfx.build-environment.BUILD_NUM
 version: '15.0.1+1'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
@@ -45,6 +48,12 @@ confinement: strict
 
 architectures:
 - build-on: amd64
+
+slots:
+  javafx-15-2004:
+    interface: content
+    source:
+      read: [jmods, sdk]
 
 apps:
   openjfx:
@@ -58,7 +67,7 @@ apps:
     - desktop
     - desktop-legacy
     - wayland
-    - unity7
+    - x11
     - opengl
 
 parts:
@@ -136,8 +145,8 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     build-environment:
-    - JAVA_HOME: /snap/openjdk/current/jvm
-    - JDK_DOCS: file:///snap/openjdk/current/jvm/docs/api
+    - JAVA_HOME: /snap/openjdk/current/jdk
+    - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
     - BUILD_NUM: '1'
     override-build: |
       set -o xtrace
@@ -168,7 +177,7 @@ parts:
     build-snaps:
     - openjdk/latest/candidate
     build-environment:
-    - JAVA_HOME: /snap/openjdk/current/jvm
+    - JAVA_HOME: /snap/openjdk/current/jdk
     override-build: |
       set -o xtrace
       rm -rf $SNAPCRAFT_PART_INSTALL/jvm
