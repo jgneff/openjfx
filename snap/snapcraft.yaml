@@ -1,0 +1,106 @@
+# snapcraft.yaml - builds a Snap package of OpenJFX
+# Copyright (C) 2020-2021 John Neffenger
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+name: openjfx
+title: OpenJFX
+summary: JavaFX cross-platform application framework
+description: |
+  OpenJFX is the open-source project that develops JavaFX.
+
+  JavaFX is a set of graphics and media APIs that enables Java
+  developers to create and deploy rich client applications that
+  operate consistently across diverse platforms.
+
+  This package provides the latest modular JARs, native libraries, JMOD
+  archives, API documentation, and source code of JavaFX. With this
+  package and OpenJDK 11 or later, you have all you need to compile,
+  run, debug, document, link, and package your JavaFX applications
+  with the most recent features and bug fixes.
+
+  To get started, see the README file for this package on GitHub:
+
+  https://github.com/jgneff/openjfx
+
+  Java and OpenJDK are trademarks or registered trademarks of Oracle
+  and/or its affiliates.
+
+# When the JavaFX release or build number changes, update the following:
+#   version, slots, parts.jfx.build-environment.BUILD_NUM
+version: '15.0.1+1'
+license: (GPL-2.0 WITH Classpath-exception-2.0)
+
+base: core18
+grade: stable
+confinement: strict
+
+architectures:
+- build-on: amd64
+
+slots:
+  javafx-15-2004:
+    interface: content
+    source:
+      read: [$SNAP/jmods, $SNAP/sdk]
+
+apps:
+  openjfx:
+    command: bin/openjfx.sh
+
+parts:
+  bin:
+    plugin: dump
+    source: .
+    stage: [bin]
+
+  jfx:
+    plugin: nil
+    source: https://github.com/openjdk/jfx.git
+    source-branch: $SNAPCRAFT_PROJECT_VERSION
+    source-depth: 1
+    build-packages:
+    - default-jdk-headless
+    - default-jdk-doc
+    - pkg-config
+    - libgtk2.0-dev
+    - libxtst-dev
+    - libgtk-3-dev
+    - libxxf86vm-dev
+    build-environment:
+    - JAVA_HOME: /usr/lib/jvm/default-java
+    - JDK_DOCS: file:///usr/lib/jvm/default-java/docs/api
+    - BUILD_NUM: '1'
+    override-build: |
+      set -o xtrace
+      getproxy () {
+          host=$(echo $1 | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
+          port=$(echo $1 | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
+      }
+      if [ "$http_proxy" ]; then
+          getproxy "$http_proxy"
+          http="-Dhttp.proxyHost=$host -Dhttp.proxyPort=$port"
+      fi
+      if [ "$https_proxy" ]; then
+          getproxy "$https_proxy"
+          https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
+      fi
+      bash gradlew $http $https -PRELEASE_SUFFIX="-snap" \
+          -PPROMOTED_BUILD_NUMBER=$BUILD_NUM \
+          -PJDK_DOCS=$JDK_DOCS sdk jmods javadoc
+      cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL
+      cd $SNAPCRAFT_PART_INSTALL; mkdir -p sdk/src
+      cd sdk/src; $JAVA_HOME/bin/jar -xf ../lib/src.zip
+    organize:
+      javadoc: sdk/api
