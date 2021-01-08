@@ -50,7 +50,7 @@ architectures:
 - build-on: amd64
 
 slots:
-  javafx-15-2004:
+  javafx-15-1804:
     interface: content
     source:
       read: [$SNAP/jmods, $SNAP/sdk]
