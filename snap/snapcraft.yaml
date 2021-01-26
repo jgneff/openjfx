@@ -58,6 +58,8 @@ slots:
 apps:
   openjfx:
     command: bin/openjfx.sh
+    environment:
+      LC_ALL: C.UTF-8
 
 parts:
   bin:
