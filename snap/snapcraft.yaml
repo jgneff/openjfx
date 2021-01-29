@@ -65,6 +65,7 @@ parts:
   bin:
     plugin: dump
     source: .
+    source-type: local
     stage: [bin]
 
   jfx:
@@ -98,7 +99,7 @@ parts:
           getproxy "$https_proxy"
           https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
       fi
-      bash gradlew $http $https -PRELEASE_SUFFIX="-snap" \
+      bash gradlew $http $https -PRELEASE_SUFFIX="-ea" \
           -PPROMOTED_BUILD_NUMBER=$BUILD_NUM \
           -PJDK_DOCS=$JDK_DOCS sdk jmods javadoc
       cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL
