@@ -39,7 +39,7 @@ description: |
 
 # When the JavaFX release or build number changes, update the following:
 #   version, slots, parts.jfx.build-environment.BUILD_NUM
-version: '17+0'
+version: '17+1'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
 base: core18
@@ -84,7 +84,7 @@ parts:
     build-environment:
     - JAVA_HOME: /usr/lib/jvm/default-java
     - JDK_DOCS: file:///usr/lib/jvm/default-java/docs/api
-    - BUILD_NUM: '0'
+    - BUILD_NUM: '1'
     override-build: |
       set -o xtrace
       getproxy () {
