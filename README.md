@@ -2,9 +2,9 @@
 
 OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx). These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
-**Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The `snapcraft.yaml` build file is found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The repository's common files are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
+**Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The build file `snapcraft.yaml` is found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
 
-## Installation
+## Install
 
 Install the OpenJFX Snap package with the command:
 
@@ -14,13 +14,13 @@ $ sudo snap install openjfx
 
 The Snap package is [strictly confined](https://snapcraft.io/docs/snap-confinement) and adds no [interfaces](https://snapcraft.io/docs/supported-interfaces) to its permissions.
 
-To develop a JavaFX application, you'll also need the Java Development Kit (JDK). On Debian-based systems, such as Ubuntu, you can install the latest OpenJDK Long Term Support (LTS) release and its documentation with the command:
+You'll also need the Java Development Kit (JDK). On Debian-based systems, such as Ubuntu, you can install the latest OpenJDK Long Term Support (LTS) release and documentation with the command:
 
 ```console
 $ sudo apt install default-jdk default-jdk-doc
 ```
 
-On Fedora-based systems, you can install the latest OpenJDK release and documentation with the command:
+On Fedora-based systems, you can install the latest OpenJDK release and documentation with the commands:
 
 ```console
 $ sudo dnf install java-latest-openjdk-devel
@@ -30,7 +30,7 @@ $ sudo dnf install java-latest-openjdk-javadoc
 
 ## Trust
 
-The packages are built in an open and transparent manner so that you can gain trust in the process that creates them instead of having to put all of your trust in the person who publishes them. Snap packages built on Launchpad include a manifest that lets you verify the build and identify its dependencies. [Launchpad builds](https://launchpad.net/builders) run on transient containers created from trusted images, ensuring that each package is created in a clean and isolated build environment.
+All of the steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in the person who publishes them.
 
 | Release | Branch | Source | Package | Channel |
 |:-------:|:------:|:------:|:-------:|:-------:|
@@ -57,7 +57,13 @@ For each OpenJFX release, the table above shows:
 * the package information and latest builds on Launchpad, and
 * the channel where the package is published in the Snap Store.
 
-Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is in a file called `manifest.yaml`, found under the directory `/snap/openjfx/current/snap` by default. The section `image-info` provides a link to a page on Launchpad with more details, including the log file from the build machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle 6.3](https://gradle.org/releases/) release.
+The OpenJFX packages on the *candidate* channel are eventually promoted to the *stable* channel.
+
+The [Launchpad build farm](https://launchpad.net/builders) runs each build in a transient container created from trusted images to ensure a clean and isolated build environment. Snap packages built on Launchpad include a manifest that lets you verify the build and identify its dependencies.
+
+## Verify
+
+Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle 6.3](https://gradle.org/releases/) release.
 
 For example, the current revision of the OpenJFX 15 package shows:
 
@@ -69,6 +75,8 @@ image-info:
 ```
 
 The `image-info` section is followed by other sections that provide the name and version of each package used during the build and each package included in the run-time image.
+
+Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to [reproduce it](https://reproducible-builds.org/). That's the main recommendation of the Linux Foundation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security. "In the longer term," he wrote, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." So far, the OpenJFX project has only just started to [add the necessary support](https://bugs.openjdk.java.net/browse/JDK-8238650).
 
 ## Usage
 
