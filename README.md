@@ -30,12 +30,15 @@ $ sudo dnf install java-latest-openjdk-javadoc
 
 ## Trust
 
-All of the steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in the person who publishes them.
+All of the steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
+
+The OpenJFX 16 General-Availability Releases are published on the *candidate* channel, while the OpenJFX 17 Early-Access Builds are published on the *edge* channel. Packages on the *candidate* channel are eventually promoted to the *stable* channel. When development for OpenJFX 18 begins, it will be published on the *edge* channel, and OpenJFX 17 will move to the *beta* channel.
+
 
 | Release | Branch | Source | Package | Channel |
 |:-------:|:------:|:------:|:-------:|:-------:|
-| OpenJFX 15 | [candidate][1] | [openjdk/jfx][4] | [openjfx-candidate][5] | [candidate][8] |
-| OpenJFX 16 | [beta][2]      | [openjdk/jfx][4] | [openjfx-beta][6]      | [beta][8]      |
+| OpenJFX 16 | [candidate][1] | [openjdk/jfx][4] | [openjfx-candidate][5] | [candidate][8] |
+| None       | [beta][2]      | [openjdk/jfx][4] | [openjfx-beta][6]      | [beta][8]      |
 | OpenJFX 17 | [edge][3]      | [openjdk/jfx][4] | [openjfx-edge][7]      | [edge][8]      |
 
 [1]: https://github.com/jgneff/openjfx/tree/candidate
@@ -57,26 +60,24 @@ For each OpenJFX release, the table above shows:
 * the package information and latest builds on Launchpad, and
 * the channel where the package is published in the Snap Store.
 
-The OpenJFX packages on the *candidate* channel are eventually promoted to the *stable* channel.
-
 The [Launchpad build farm](https://launchpad.net/builders) runs each build in a transient container created from trusted images to ensure a clean and isolated build environment. Snap packages built on Launchpad include a manifest that lets you verify the build and identify its dependencies.
 
 ## Verify
 
 Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle 6.3](https://gradle.org/releases/) release.
 
-For example, the current revision of the OpenJFX 15 package shows:
+For example, the current revision of the OpenJFX 16 package shows:
 
 ```yaml
 image-info:
-  build-request-id: lp-62078897
-  build-request-timestamp: '2021-01-29T23:40:59Z'
-  build_url: https://launchpad.net/~jgneff/+snap/openjfx-candidate/+build/1276853
+  build-request-id: lp-62797256
+  build-request-timestamp: '2021-03-10T18:17:22Z'
+  build_url: https://launchpad.net/~jgneff/+snap/openjfx-candidate/+build/1328667
 ```
 
 The `image-info` section is followed by other sections that provide the name and version of each package used during the build and each package included in the run-time image.
 
-Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to [reproduce it](https://reproducible-builds.org/). That's the main recommendation of the Linux Foundation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security. "In the longer term," he wrote, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." So far, the OpenJFX project has only just started to [add the necessary support](https://bugs.openjdk.java.net/browse/JDK-8238650).
+Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to reproduce it. That's the main recommendation of the Linux Foundation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security. "In the longer term," he wrote, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." So far, the OpenJFX project has only just started to [add the necessary support](https://bugs.openjdk.java.net/browse/JDK-8238650).
 
 ## Usage
 
