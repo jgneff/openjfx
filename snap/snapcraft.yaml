@@ -18,17 +18,15 @@ name: openjfx
 title: OpenJFX
 summary: JavaFX cross-platform application framework
 description: |
-  OpenJFX is the open-source project that develops JavaFX.
+  OpenJFX is the open-source project that develops JavaFX, a
+  cross-platform application framework that lets you develop and
+  deploy rich client applications which operate consistently across
+  diverse platforms.
 
-  JavaFX is a set of graphics and media APIs that enables Java
-  developers to create and deploy rich client applications that
-  operate consistently across diverse platforms.
-
-  This package provides the latest modular JARs, native libraries, JMOD
-  archives, API documentation, and source code of JavaFX. With this
-  package and OpenJDK 11 or later, you have all you need to compile,
-  run, debug, document, link, and package your JavaFX applications
-  with the most recent features and bug fixes.
+  This package, together with OpenJDK 11 or later, provides everything
+  you need to develop a JavaFX application on Linux, including all
+  of the latest JAR files, native libraries, JMOD archives, API
+  documentation, and source code of JavaFX.
 
   To get started, see the README file for this package on GitHub:
 
