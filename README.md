@@ -42,16 +42,26 @@ $ sudo snap install openjfx --beta
 $ sudo snap install openjfx --edge
 ```
 
-The general-availability release is published on the *candidate* channel and promoted to the *stable* channel after its first point release. The early-access builds are published on the *beta* and *edge* channels.
+## Schedule
 
-For example, the OpenJFX 17 general-availability release will be published on the *candidate* channel on September 7, 2021, or soon thereafter. OpenJFX 16 will remain on the *stable* channel until OpenJFX 17.0.1 is released about a month later. OpenJFX 17.0.1 will then be promoted to the *stable* channel, and OpenJFX 16 will no longer be available. This schedule allows for a one-month transition period during which both the prior and current releases are available on the *stable* and *candidate* channels.
+The following table maps the JavaFX 17 release schedule to the channels of the OpenJFX Snap package. The channel columns show the OpenJFX release found on the channel during each phase of the release.
+
+| Date       | Phase                     | Stable | Candidate | Beta | Edge |
+| ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
+| 2021-03-09 | Current Release           | 16     | <         | <    | 17   |
+| 2021-07-08 | Rampdown Phase One        | 16     | <         | 17   | 18   |
+| 2021-07-29 | Rampdown Phase Two        | 16     | <         | 17   | 18   |
+| 2021-08-19 | Release Candidate Freeze  | 16     | 17        | <    | 18   |
+| 2021-09-07 | General Availability      | 17     | <         | <    | 18   |
+
+The symbol "<" indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
 
 ## Trust
 
 The steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
 
-| Branch | Source | Package | Channel | Release |
-| ------ | ------ | ------- | ------- | ------- |
+| Branch         | Source           | Package                | Channel   | Release  |
+| -------------- | ---------------- | ---------------------- | --------- |:--------:|
 | [candidate][1] | [openjdk/jfx][4] | [openjfx-candidate][5] | candidate | 16       |
 | [beta][2]      | [openjdk/jfx][4] | [openjfx-beta][6]      | beta      | *Unused* |
 | [edge][3]      | [openjdk/jfx][4] | [openjfx-edge][7]      | edge      | 17       |
