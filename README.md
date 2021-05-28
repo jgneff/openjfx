@@ -4,6 +4,12 @@ OpenJFX is the open-source project that develops JavaFX. This project builds [Sn
 
 **Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The build file `snapcraft.yaml` is found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
 
+The list below links directly to each of the [Snapcraft build files](https://snapcraft.io/docs/snapcraft-yaml-reference):
+
+* [`snap/snapcraft.yaml`](https://github.com/jgneff/openjfx/blob/candidate/snap/snapcraft.yaml) at candidate
+* [`snap/snapcraft.yaml`](https://github.com/jgneff/openjfx/blob/beta/snap/snapcraft.yaml) at beta
+* [`snap/snapcraft.yaml`](https://github.com/jgneff/openjfx/blob/edge/snap/snapcraft.yaml) at edge
+
 ## Install
 
 Install the OpenJFX Snap package with the command:
@@ -28,18 +34,27 @@ $ sudo dnf install java-latest-openjdk-jmods
 $ sudo dnf install java-latest-openjdk-javadoc
 ```
 
+Install the OpenJFX Snap package from a channel other than the *stable* channel with one of the following commands:
+
+```console
+$ sudo snap install openjfx --candidate
+$ sudo snap install openjfx --beta
+$ sudo snap install openjfx --edge
+```
+
+The general-availability release is published on the *candidate* channel and promoted to the *stable* channel after its first point release. The early-access builds are published on the *beta* and *edge* channels.
+
+For example, the OpenJFX 17 general-availability release will be published on the *candidate* channel on September 7, 2021, or soon thereafter. OpenJFX 16 will remain on the *stable* channel until OpenJFX 17.0.1 is released about a month later. OpenJFX 17.0.1 will then be promoted to the *stable* channel, and OpenJFX 16 will no longer be available. This schedule allows for a one-month transition period during which both the prior and current releases are available on the *stable* and *candidate* channels.
+
 ## Trust
 
-All of the steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
+The steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
 
-The OpenJFX 16 General-Availability Releases are published on the *candidate* channel, while the OpenJFX 17 Early-Access Builds are published on the *edge* channel. Packages on the *candidate* channel are eventually promoted to the *stable* channel. When development for OpenJFX 18 begins, it will be published on the *edge* channel, and OpenJFX 17 will move to the *beta* channel.
-
-
-| Release | Branch | Source | Package | Channel |
-|:-------:|:------:|:------:|:-------:|:-------:|
-| OpenJFX 16 | [candidate][1] | [openjdk/jfx][4] | [openjfx-candidate][5] | [candidate][8] |
-| None       | [beta][2]      | [openjdk/jfx][4] | [openjfx-beta][6]      | [beta][8]      |
-| OpenJFX 17 | [edge][3]      | [openjdk/jfx][4] | [openjfx-edge][7]      | [edge][8]      |
+| Branch | Source | Package | Channel | Release |
+| ------ | ------ | ------- | ------- | ------- |
+| [candidate][1] | [openjdk/jfx][4] | [openjfx-candidate][5] | candidate | 16       |
+| [beta][2]      | [openjdk/jfx][4] | [openjfx-beta][6]      | beta      | *Unused* |
+| [edge][3]      | [openjdk/jfx][4] | [openjfx-edge][7]      | edge      | 17       |
 
 [1]: https://github.com/jgneff/openjfx/tree/candidate
 [2]: https://github.com/jgneff/openjfx/tree/beta
@@ -51,22 +66,21 @@ The OpenJFX 16 General-Availability Releases are published on the *candidate* ch
 [6]: https://launchpad.net/~jgneff/+snap/openjfx-beta
 [7]: https://launchpad.net/~jgneff/+snap/openjfx-edge
 
-[8]: https://snapcraft.io/openjfx
-
-For each OpenJFX release, the table above shows:
+For each of the three branches, the table above shows:
 
 * the branch of this repository that creates the Snap package,
 * the source code repository of the OpenJFX release on GitHub,
-* the package information and latest builds on Launchpad, and
-* the channel where the package is published in the Snap Store.
+* the package information and latest builds on Launchpad,
+* the channel where the package is published in the Snap Store, and
+* the release of OpenJFX currently published on the channel.
 
 The [Launchpad build farm](https://launchpad.net/builders) runs each build in a transient container created from trusted images to ensure a clean and isolated build environment. Snap packages built on Launchpad include a manifest that lets you verify the build and identify its dependencies.
 
 ## Verify
 
-Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle 6.3](https://gradle.org/releases/) release.
+Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, the current revision of the OpenJFX 16 package shows:
+For example, the current revision of the OpenJFX 16 package for *amd64* shows:
 
 ```yaml
 image-info:
@@ -77,11 +91,11 @@ image-info:
 
 The `image-info` section is followed by other sections that provide the name and version of each package used during the build and each package included in the run-time image.
 
-Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to reproduce it. That's the main recommendation of the Linux Foundation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security. "In the longer term," he wrote, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." So far, the OpenJFX project has only just started to [add the necessary support](https://bugs.openjdk.java.net/browse/JDK-8238650).
+Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to reproduce it. That's the main recommendation of the Linux Foundation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security. "In the longer term," he wrote, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." So far, the OpenJFX project has only just started to [add the necessary support](https://github.com/openjdk/jfx/pull/446).
 
 ## Usage
 
-The installed package includes the following directories:
+Once installed, the OpenJFX Snap package includes the following directories:
 
 * `/snap/openjfx/current/jmods` - JMOD archives for `jlink`
 * `/snap/openjfx/current/sdk/api` - Javadoc API documentation
@@ -129,7 +143,7 @@ Once defined, you can use these variables in arguments to the `java`, `javac`, `
 Ultimately, I would like to see the latest OpenJFX available in the package repositories of all Linux distributions. Then on Ubuntu 20.04 LTS, for example, you could install it with a command like the following:
 
 ```console
-$ sudo apt install openjfx-15-sdk
+$ sudo apt install openjfx-16-sdk
 ```
 
 Until that time, this Snap package can serve as a temporary solution by providing the latest OpenJFX on as many Linux distributions and architectures as possible. I welcome your help and support.
@@ -138,10 +152,10 @@ Until that time, this Snap package can serve as a temporary solution by providin
 
 On Linux systems, you can build the Snap package directly by installing [Snapcraft](https://snapcraft.io/snapcraft) on your development workstation. The bottom of the Snapcraft page shows how to enable Snaps for your Linux distribution.
 
-Whether you're running Windows, macOS, or Linux, you can use [Multipass](https://multipass.run) to build this project in an Ubuntu virtual machine (VM). For example, the following command will launch the Multipass [primary instance](https://multipass.run/docs/primary-instance) with 2 CPUs, 4 GiB of RAM, and Ubuntu 20.10 (Groovy Gorilla):
+Whether you're running Windows, macOS, or Linux, you can use [Multipass](https://multipass.run) to build this project in an Ubuntu virtual machine (VM). For example, the following command will launch the Multipass [primary instance](https://multipass.run/docs/primary-instance) with 2 CPUs, 4 GiB of RAM, and Ubuntu 20.04 LTS (Focal Fossa):
 
 ```console
-$ multipass launch --name primary --cpus 2 --mem 4G groovy
+$ multipass launch --name primary --cpus 2 --mem 4G focal
 ```
 
 The `snap/snapcraft.yaml` files on the *candidate*, *beta*, and *edge* branches define the build of the Snap package. Run the following commands to install Snapcraft, clone this repository, switch to the *candidate* branch, and start building the package:
@@ -156,7 +170,7 @@ $ snapcraft
 
 Snapcraft launches a new Multipass VM to ensure a clean and isolated build environment. The VM is named `snapcraft-openjfx` and runs Ubuntu 18.04 LTS (Bionic Beaver). The project's directory on the host system is mounted as `/root/project` in the guest VM, so any changes you make on the host are seen immediately in the guest, and vice versa.
 
-**Note:** If you run the initial `snapcraft` command itself inside a VM, your system will need *nested VM* functionality. The [Build Options](https://snapcraft.io/docs/build-options) page lists alternatives, such as using an LXD container or running on a remote server using Launchpad.
+**Note:** If you run the initial `snapcraft` command itself inside a VM, your system will need *nested VM* functionality. See the [Build Options](https://snapcraft.io/docs/build-options) page for alternatives, such as running a remote build or using an LXD container.
 
 If the build fails, you can run the command again with the `--debug` option to remain in the VM after the error:
 
@@ -181,10 +195,10 @@ They can be satisfied by adding the following entry for this part
 stage-packages:
   ...
 Snapping...
-Snapped openjfx_15.0.1+1_amd64.snap
+Snapped openjfx_16+8_amd64.snap
 ```
 
-When the build completes, you'll find the Snap package in the project's root directory, along with the log file if you ran the build remotely.
+When the build completes, you'll find the Snap package in the project's root directory, along with the build log file if you ran the build remotely.
 
 ## License and Trademarks
 
