@@ -48,13 +48,13 @@ The following table maps the JavaFX 17 release schedule to the channels of the O
 
 | Date       | Phase                     | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
-| 2021-03-09 | Current Release           | 16     | <         | <    | 17   |
-| 2021-07-08 | Rampdown Phase One        | 16     | <         | 17   | 18   |
-| 2021-07-29 | Rampdown Phase Two        | 16     | <         | 17   | 18   |
-| 2021-08-19 | Release Candidate Freeze  | 16     | 17        | <    | 18   |
-| 2021-09-07 | General Availability      | 17     | <         | <    | 18   |
+| 2021-03-09 | Current Release           | 16 | ←  | ←  | 17 |
+| 2021-07-08 | Rampdown Phase One        | 16 | ←  | 17 | 18 |
+| 2021-07-29 | Rampdown Phase Two        | 16 | ←  | 17 | 18 |
+| 2021-08-19 | Release Candidate Freeze  | 16 | 17 | ←  | 18 |
+| 2021-09-07 | General Availability      | 17 | ←  | ←  | 18 |
 
-The symbol "<" indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
+The arrow symbol "←" indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
 
 ## Trust
 
