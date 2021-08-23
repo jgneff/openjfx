@@ -37,11 +37,6 @@ description: |
 
 version: '17+17'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
-contact: https://github.com/jgneff/openjfx/discussions
-donation: https://github.com/sponsors/jgneff
-issues: https://github.com/jgneff/openjfx/issues
-source-code: https://github.com/jgneff/openjfx.git
-website: https://www.status6.com
 
 base: core18
 grade: stable
