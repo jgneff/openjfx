@@ -96,7 +96,9 @@ parts:
           set -- "$@" "-Dhttps.proxyHost=$host" "-Dhttps.proxyPort=$port"
       fi
       "$@" -PPROMOTED_BUILD_NUMBER="${SNAPCRAFT_PROJECT_VERSION#*+}" \
-          -PRELEASE_SUFFIX="-ea" -PJDK_DOCS="$JDK_DOCS" sdk jmods javadoc
+          -PRELEASE_SUFFIX="-ea" \
+          -PJDK_DOCS="$JDK_DOCS" \
+          sdk jmods javadoc
       cd build || exit
       mv sdk jmods javadoc "$SNAPCRAFT_PART_INSTALL"
       cd "$SNAPCRAFT_PART_INSTALL" || exit
