@@ -19,9 +19,9 @@ title: OpenJFX
 summary: Current JavaFX release and early-access builds
 description: |
   OpenJFX is the official open-source project that develops JavaFX,
-  a cross-platform application framework that lets you develop and
-  deploy rich client applications that operate consistently across
-  a diverse set of platforms.
+  a cross-platform application framework for developing and deploying
+  rich client applications that operate consistently across a diverse
+  set of platforms.
 
   This package, together with OpenJDK 11 or later, provides everything
   you need to develop a JavaFX application on Linux, including all
@@ -35,8 +35,6 @@ description: |
   Java and OpenJDK are trademarks or registered trademarks of Oracle
   and/or its affiliates.
 
-# When the JavaFX release or build number changes, update the following:
-#   version, slots, parts.jfx.build-environment.BUILD_NUM
 version: '18+2'
 license: (GPL-2.0 WITH Classpath-exception-2.0)
 
@@ -82,26 +80,28 @@ parts:
     build-environment:
     - JAVA_HOME: /usr/lib/jvm/default-java
     - JDK_DOCS: file:///usr/lib/jvm/default-java/docs/api
-    - BUILD_NUM: '2'
     override-build: |
-      set -o xtrace
       getproxy () {
-          host=$(echo $1 | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
-          port=$(echo $1 | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
+          host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
+          port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
       }
-      if [ "$http_proxy" ]; then
+      # Build the Gradle command using the shell's positional parameters
+      set -- bash gradlew
+      if [ -n "${http_proxy:-}" ]; then
           getproxy "$http_proxy"
-          http="-Dhttp.proxyHost=$host -Dhttp.proxyPort=$port"
+          set -- "$@" "-Dhttp.proxyHost=$host" "-Dhttp.proxyPort=$port"
       fi
-      if [ "$https_proxy" ]; then
+      if [ -n "${https_proxy:-}" ]; then
           getproxy "$https_proxy"
-          https="-Dhttps.proxyHost=$host -Dhttps.proxyPort=$port"
+          set -- "$@" "-Dhttps.proxyHost=$host" "-Dhttps.proxyPort=$port"
       fi
-      bash gradlew $http $https -PRELEASE_SUFFIX="-ea" \
-          -PPROMOTED_BUILD_NUMBER=$BUILD_NUM \
-          -PJDK_DOCS=$JDK_DOCS sdk jmods javadoc
-      cd build; mv sdk jmods javadoc $SNAPCRAFT_PART_INSTALL
-      cd $SNAPCRAFT_PART_INSTALL; mkdir -p sdk/src
-      cd sdk/src; $JAVA_HOME/bin/jar -xf ../src.zip
+      "$@" -PPROMOTED_BUILD_NUMBER="${SNAPCRAFT_PROJECT_VERSION#*+}" \
+          -PRELEASE_SUFFIX="-ea" -PJDK_DOCS="$JDK_DOCS" sdk jmods javadoc
+      cd build || exit
+      mv sdk jmods javadoc "$SNAPCRAFT_PART_INSTALL"
+      cd "$SNAPCRAFT_PART_INSTALL" || exit
+      mkdir -p sdk/src
+      cd sdk/src || exit
+      "$JAVA_HOME/bin/jar" -xf ../src.zip
     organize:
       javadoc: sdk/api
