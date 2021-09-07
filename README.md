@@ -48,13 +48,13 @@ The following table maps the JavaFX 17 release schedule to the channels of the O
 
 | Date       | Phase                     | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
-| 2021-03-09 | Current Release           | 16 | ←  | ←  | 17 |
+| 2021-03-09 | General Availability      | 16 | ←  | ←  | 17 |
 | 2021-07-08 | Rampdown Phase One        | 16 | ←  | 17 | 18 |
 | 2021-07-29 | Rampdown Phase Two        | 16 | ←  | 17 | 18 |
 | 2021-08-19 | Release Candidate Freeze  | 16 | 17 | ←  | 18 |
 | 2021-09-07 | General Availability      | 17 | ←  | ←  | 18 |
 
-The leftwards arrow symbol (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
+The leftwards arrow symbol (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level in the column to the left. If the channel is re-opened, packages will once again be selected from the original channel.
 
 ## Trust
 
@@ -90,13 +90,13 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, the current revision of the OpenJFX 16 package for *amd64* shows:
+For example, the current revision of the OpenJFX 17 package for *amd64* shows:
 
 ```yaml
 image-info:
-  build-request-id: lp-62797256
-  build-request-timestamp: '2021-03-10T18:17:22Z'
-  build_url: https://launchpad.net/~jgneff/+snap/openjfx-candidate/+build/1328667
+  build-request-id: lp-65929479
+  build-request-timestamp: '2021-09-07T15:22:32Z'
+  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1516554
 ```
 
 The `image-info` section is followed by other sections that provide the name and version of each package used during the build and any packages included in the run-time image.
@@ -146,17 +146,14 @@ JAVAFX_LIB=/snap/openjfx/x1/sdk/lib
 JAVAFX_MOD=/snap/openjfx/x1/jmods
 ```
 
-Once defined, you can use these variables in arguments to the `java`, `javac`, `javadoc`, `jlink`, and `jpackage` tools of the JDK.
-
-## Contributing
-
-Ultimately, I would like to see the latest OpenJFX release available in the package repositories of all Linux distributions. Then on Ubuntu 20.04 LTS, for example, you could install it with a command like the following:
+You can also set the environment variables yourself to fixed locations that don't depend on the Snap revision number, as shown below:
 
 ```console
-$ sudo apt install openjfx-16-sdk
+$ export JAVAFX_LIB=/snap/openjfx/current/sdk/lib
+$ export JAVAFX_MOD=/snap/openjfx/current/jmods
 ```
 
-Until that time, this Snap package can serve as a temporary solution by providing the latest OpenJFX release on as many Linux distributions and architectures as possible. I welcome your help and support.
+Once defined, you can use these variables in arguments to the `java`, `javac`, `javadoc`, `jlink`, and `jpackage` tools of the JDK.
 
 ## Building
 
