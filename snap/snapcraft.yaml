@@ -44,6 +44,11 @@ confinement: strict
 
 architectures:
 - build-on: amd64
+- build-on: arm64
+- build-on: armhf
+- build-on: i386
+- build-on: ppc64el
+- build-on: s390x
 
 slots:
   javafx-18-1804:
@@ -81,11 +86,23 @@ parts:
     - JAVA_HOME: /usr/lib/jvm/default-java
     - JDK_DOCS: file:///usr/lib/jvm/default-java/docs/api
     override-build: |
+      # Gets the host and port from a proxy URL
+      #   $1 = the proxy URL, such as "http://10.10.10.1:8222/"
       getproxy () {
           host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
           port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
       }
-      # Build the Gradle command using the shell's positional parameters
+
+      # Applies patches for building on armhf, i386, ppc64el, and s390x
+      case $SNAPCRAFT_TARGET_ARCH in
+          armhf|i386|ppc64el|s390x)
+              for p in "$SNAPCRAFT_PROJECT_DIR"/snap/local/*.patch; do
+                  git apply "$p"
+              done
+              ;;
+      esac
+
+      # Builds the Gradle command using shell positional parameters
       set -- bash gradlew
       if [ -n "${http_proxy:-}" ]; then
           getproxy "$http_proxy"
@@ -99,6 +116,8 @@ parts:
           -PRELEASE_SUFFIX="-ea" \
           -PJDK_DOCS="$JDK_DOCS" \
           sdk jmods javadoc
+
+      # Installs the build output and extracts the Java source files
       cd build || exit
       mv sdk jmods javadoc "$SNAPCRAFT_PART_INSTALL"
       cd "$SNAPCRAFT_PART_INSTALL" || exit
