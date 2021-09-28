@@ -51,10 +51,12 @@ architectures:
 - build-on: s390x
 
 slots:
-  javafx-17-1804:
+  jfx-17-1804:
     interface: content
     source:
-      read: [$SNAP/jmods, $SNAP/sdk]
+      read:
+      - $SNAP/sdk
+      - $SNAP/usr/lib
 
 apps:
   openjfx:
@@ -72,7 +74,7 @@ parts:
   jfx:
     plugin: nil
     source: https://github.com/openjdk/jfx17u.git
-    source-branch: $SNAPCRAFT_PROJECT_VERSION
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
     build-packages:
     - default-jdk-headless
@@ -125,4 +127,81 @@ parts:
       cd sdk/src || exit
       "$JAVA_HOME/bin/jar" -xf ../src.zip
     organize:
+      jmods: sdk/jmods
       javadoc: sdk/api
+    stage-packages:
+    # Adds library packages suggested by Snapcraft plus Libcanberra GTK module
+    - libatk1.0-0
+    - libatk-bridge2.0-0
+    - libatspi2.0-0
+    - libcairo2
+    - libcairo-gobject2
+    - libdatrie1
+    - libepoxy0
+    - libfontconfig1
+    - libfreetype6
+    - libgdk-pixbuf2.0-0
+    - libgl1
+    - libglvnd0
+    - libglx0
+    - libgraphite2-3
+    - libgtk2.0-0
+    - libgtk-3-0
+    - libharfbuzz0b
+    - libpango-1.0-0
+    - libpangocairo-1.0-0
+    - libpangoft2-1.0-0
+    - libpixman-1-0
+    - libpng16-16
+    - libthai0
+    - libwayland-client0
+    - libwayland-cursor0
+    - libwayland-egl1
+    - libx11-6
+    - libxau6
+    - libxcb1
+    - libxcb-render0
+    - libxcb-shm0
+    - libxcomposite1
+    - libxcursor1
+    - libxdamage1
+    - libxdmcp6
+    - libxext6
+    - libxfixes3
+    - libxi6
+    - libxinerama1
+    - libxkbcommon0
+    - libxrandr2
+    - libxrender1
+    - libxtst6
+    # Gtk-Message: 16:12:52.145: Failed to load module "canberra-gtk-module"
+    - libcanberra-gtk3-module
+    override-prime: |
+      # The following code fixes the error:
+      #   GdkPixbuf-WARNING **: 16:12:52.106: Cannot open pixbuf loader module
+      #   file '/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache':
+      #   No such file or directory
+      #
+      #   This likely means that your installation is broken.
+      #   Try running the command
+      #     gdk-pixbuf-query-loaders > \
+      #         /usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache
+      #   to make things work again for the time being.
+      snapcraftctl prime
+      libdir=usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0
+      libver=2.10.0
+      cd "$SNAPCRAFT_PRIME" || exit
+      "$libdir/gdk-pixbuf-query-loaders" > "$libdir/$libver/loaders.cache"
+
+  del:
+    after: [jfx]
+    plugin: nil
+    # Deletes files and links already available in the base snap
+    override-prime: |
+      cd "$SNAPCRAFT_PRIME" || exit
+      base=/snap/core18/current
+      for d in etc lib usr/lib usr/share var; do
+          find "$d" -type f -exec test -f "$base/{}" \; -delete
+          find "$d" -type l -exec test -L "$base/{}" \; -delete
+      done
+      find ./* -type d -empty -exec test -d "$base/{}" \; -delete
