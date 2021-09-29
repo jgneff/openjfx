@@ -130,7 +130,7 @@ parts:
       jmods: sdk/jmods
       javadoc: sdk/api
     stage-packages:
-    # Adds library packages suggested by Snapcraft plus Libcanberra GTK module
+    # Adds library packages suggested by Snapcraft plus some GTK modules
     - libatk1.0-0
     - libatk-bridge2.0-0
     - libatspi2.0-0
@@ -176,6 +176,8 @@ parts:
     - libxtst6
     # Gtk-Message: 16:12:52.145: Failed to load module "canberra-gtk-module"
     - libcanberra-gtk3-module
+    # Gtk-Message: 10:57:54.572: Failed to load module "pk-gtk-module"
+    - packagekit-gtk3-module
     override-prime: |
       # The following code fixes the error:
       #   GdkPixbuf-WARNING **: 16:12:52.106: Cannot open pixbuf loader module
