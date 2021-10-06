@@ -1,6 +1,17 @@
-![OpenJFX: Verifiable builds for Linux from source](images/banner.svg)
+![OpenJFX: Current JavaFX Release and Early-Access Builds for Linux](images/banner.svg)
 
 OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx). These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
+
+The OpenJFX 17 general-availability (GA) release and OpenJFX 18 early-access (EA) builds are published for all of the hardware platforms listed below, identified by their Debian architecture name and machine hardware name:
+
+| Architecture | Hardware | OpenJFX 17 GA | OpenJFX 18 EA |
+|:------------:|:--------:|:-------------:|:-------------:|
+| amd64        | x86_64   | ✔️ | ✔️ |
+| arm64        | aarch64  | ✔️ | ✔️ |
+| armhf        | armv7l   | ✔️ | ✔️ |
+| i386         | i686     | ✔️ | ✔️ |
+| ppc64el      | ppc64le  | ✔️ | ✔️ |
+| s390x        | s390x    | ✔️ | ✔️ |
 
 **Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The `snapcraft.yaml` build files are found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
 
@@ -20,6 +31,14 @@ $ sudo snap install openjfx
 
 The Snap package is [strictly confined](https://snapcraft.io/docs/snap-confinement) and adds no [interfaces](https://snapcraft.io/docs/supported-interfaces) to its permissions.
 
+Install the OpenJFX Snap package from a channel other than the *stable* channel with one of the following commands:
+
+```console
+$ sudo snap install openjfx --candidate
+$ sudo snap install openjfx --beta
+$ sudo snap install openjfx --edge
+```
+
 You'll also need the Java Development Kit (JDK). On Debian-based systems, such as Ubuntu, you can install the latest OpenJDK Long Term Support (LTS) release and documentation with the command:
 
 ```console
@@ -34,17 +53,19 @@ $ sudo dnf install java-latest-openjdk-jmods
 $ sudo dnf install java-latest-openjdk-javadoc
 ```
 
-Install the OpenJFX Snap package from a channel other than the *stable* channel with one of the following commands:
+On any Linux system, you can also install the [OpenJDK Snap package](https://snapcraft.io/openjdk) to get the current JDK release or early-access build. When you install the same major version of the OpenJDK and OpenJFX Snap packages, they will connect automatically, allowing you to develop and deploy both Java and JavaFX applications. For example, installing the OpenJDK 17 and OpenJFX 17 Snap packages results in the following connection:
 
 ```console
-$ sudo snap install openjfx --candidate
-$ sudo snap install openjfx --beta
-$ sudo snap install openjfx --edge
+$ snap connections openjfx
+Interface             Plug                 Slot                 Notes
+content[jfx-17-1804]  openjdk:jfx-17-1804  openjfx:jfx-17-1804  -
 ```
+
+This connection provides the OpenJDK Snap package with read access to the OpenJFX Software Development Kit (SDK) and shared libraries so that you can compile, package, link, and run JavaFX applications.
 
 ## Schedule
 
-The following table maps the JavaFX 17 release schedule to the channels of the OpenJFX Snap package. The channel columns show the JavaFX release found on the channel during each phase of the schedule.
+The table below maps the JavaFX 17 release schedule to the channels of the OpenJFX Snap package. The channel columns show the JavaFX release found on the channel during each phase of the schedule.
 
 | Date       | Phase                     | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
@@ -60,21 +81,23 @@ The leftwards arrow symbol (←) indicates that the channel is closed. When a sp
 
 The steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
 
-| Channel   | Branch         | Source           | Package                |
-| --------- | -------------- | ---------------- | ---------------------- |
-| candidate | [candidate][1] | [openjdk/jfx][4] | [openjfx-candidate][5] |
-| beta      | [beta][2]      | [openjdk/jfx][4] | [openjfx-beta][6]      |
-| edge      | [edge][3]      | [openjdk/jfx][4] | [openjfx-edge][7]      |
+| Channel   | Branch         | Source              | Package                |
+| --------- | -------------- | ------------------- | ---------------------- |
+| candidate | [candidate][1] | [openjdk/jfx17u][4] | [openjfx-candidate][7] |
+| beta      | [beta][2]      | [openjdk/jfx][5]    | [openjfx-beta][8]      |
+| edge      | [edge][3]      | [openjdk/jfx][6]    | [openjfx-edge][9]      |
 
 [1]: https://github.com/jgneff/openjfx/tree/candidate
 [2]: https://github.com/jgneff/openjfx/tree/beta
 [3]: https://github.com/jgneff/openjfx/tree/edge
 
-[4]: https://github.com/openjdk/jfx/tags
+[4]: https://github.com/openjdk/jfx17u/tags
+[5]: https://github.com/openjdk/jfx/tags
+[6]: https://github.com/openjdk/jfx/tags
 
-[5]: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate
-[6]: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-beta
-[7]: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-edge
+[7]: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate
+[8]: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-beta
+[9]: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-edge
 
 For each of the three channels, the table above links to:
 
@@ -94,9 +117,9 @@ For example, the current revision of the OpenJFX 17 package for *amd64* shows:
 
 ```yaml
 image-info:
-  build-request-id: lp-65929479
-  build-request-timestamp: '2021-09-07T15:22:32Z'
-  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1516554
+  build-request-id: lp-66380632
+  build-request-timestamp: '2021-09-29T18:48:58Z'
+  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1541058
 ```
 
 The `image-info` section is followed by other sections that provide the name and version of each package used during the build and any packages included in the run-time image.
@@ -107,8 +130,8 @@ Having a transparent build process is a good first step, but the only conclusive
 
 Once installed, the OpenJFX Snap package includes the following directories:
 
-* `/snap/openjfx/current/jmods` - JMOD archives for `jlink`
 * `/snap/openjfx/current/sdk/api` - Javadoc API documentation
+* `/snap/openjfx/current/sdk/jmods` - JMOD archives for `jlink`
 * `/snap/openjfx/current/sdk/lib` - Modular JAR files and native libraries
 * `/snap/openjfx/current/sdk/src` - Java source code of JavaFX
 
@@ -129,7 +152,7 @@ The file exports the `JAVAFX_LIB` and `JAVAFX_MOD` environment variables:
 $ cat $(openjfx)
 # Source this file for OpenJFX environment variables
 export JAVAFX_LIB=/snap/openjfx/x1/sdk/lib
-export JAVAFX_MOD=/snap/openjfx/x1/jmods
+export JAVAFX_MOD=/snap/openjfx/x1/sdk/jmods
 ```
 
 To set the variables in your current shell, use the `source` or "dot" (`.`) command to read and execute the commands from the file:
@@ -143,14 +166,14 @@ You can then verify that `JAVAFX_LIB` and `JAVAFX_MOD` are defined with:
 ```console
 $ printenv | grep JAVAFX
 JAVAFX_LIB=/snap/openjfx/x1/sdk/lib
-JAVAFX_MOD=/snap/openjfx/x1/jmods
+JAVAFX_MOD=/snap/openjfx/x1/sdk/jmods
 ```
 
-You can also set the environment variables yourself to fixed locations that don't depend on the Snap revision number, as shown below:
+You can also manually set the environment variables to fixed locations that don't depend on the Snap revision number, as shown below:
 
 ```console
 $ export JAVAFX_LIB=/snap/openjfx/current/sdk/lib
-$ export JAVAFX_MOD=/snap/openjfx/current/jmods
+$ export JAVAFX_MOD=/snap/openjfx/current/sdk/jmods
 ```
 
 Once defined, you can use these variables in arguments to the `java`, `javac`, `javadoc`, `jlink`, and `jpackage` tools of the JDK.
@@ -189,19 +212,14 @@ From within the VM, you can then clean the Snapcraft part and try again:
 ```console
 # snapcraft clean jfx
 Cleaning pull step (and all subsequent steps) for jfx
+  ...
 # snapcraft
   ...
 BUILD SUCCESSFUL in 2m 3s
 136 actionable tasks: 136 executed
   ...
-Priming jfx
-+ snapcraftctl prime
-The 'jfx' part is missing libraries that are not included in the snap or base.
-They can be satisfied by adding the following entry for this part
-stage-packages:
-  ...
 Snapping...
-Snapped openjfx_18+2_amd64.snap
+Snapped openjfx_18+4_amd64.snap
 ```
 
 When the build completes, you'll find the Snap package in the project's root directory, along with the log file if you ran the build remotely.
