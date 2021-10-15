@@ -6,12 +6,12 @@ The OpenJFX 17 general-availability (GA) release and OpenJFX 18 early-access (EA
 
 | Architecture | Hardware | OpenJFX 17 GA | OpenJFX 18 EA |
 |:------------:|:--------:|:-------------:|:-------------:|
-| amd64        | x86_64   | ✔️ | ✔️ |
-| arm64        | aarch64  | ✔️ | ✔️ |
-| armhf        | armv7l   | ✔️ | ✔️ |
-| i386         | i686     | ✔️ | ✔️ |
-| ppc64el      | ppc64le  | ✔️ | ✔️ |
-| s390x        | s390x    | ✔️ | ✔️ |
+| amd64        | x86_64   | ✔ | ✔ |
+| arm64        | aarch64  | ✔ | ✔ |
+| armhf        | armv7l   | ✔ | ✔ |
+| i386         | i686     | ✔ | ✔ |
+| ppc64el      | ppc64le  | ✔ | ✔ |
+| s390x        | s390x    | ✔ | ✔ |
 
 **Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The `snapcraft.yaml` build files are found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
 
