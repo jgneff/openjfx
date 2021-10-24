@@ -104,8 +104,8 @@ parts:
               ;;
       esac
 
-      # Builds the Gradle command using shell positional parameters
-      set -- bash gradlew
+      # Adds Java system properties using shell positional parameters
+      set --
       if [ -n "${http_proxy:-}" ]; then
           getproxy "$http_proxy"
           set -- "$@" "-Dhttp.proxyHost=$host" "-Dhttp.proxyPort=$port"
@@ -114,7 +114,8 @@ parts:
           getproxy "$https_proxy"
           set -- "$@" "-Dhttps.proxyHost=$host" "-Dhttps.proxyPort=$port"
       fi
-      "$@" -PPROMOTED_BUILD_NUMBER="${SNAPCRAFT_PROJECT_VERSION#*+}" \
+      bash gradlew "$@" \
+          -PPROMOTED_BUILD_NUMBER="${SNAPCRAFT_PROJECT_VERSION#*+}" \
           -PRELEASE_SUFFIX="-ea" \
           -PJDK_DOCS="$JDK_DOCS" \
           sdk jmods javadoc
