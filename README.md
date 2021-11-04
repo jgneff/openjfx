@@ -1,4 +1,4 @@
-![OpenJFX: Current JavaFX Release and Early-Access Builds for Linux](images/banner.svg)
+![OpenJFX: Current JavaFX Release and Early-Access Builds](images/banner.svg)
 
 OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx). These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
