@@ -1,4 +1,4 @@
-![OpenJFX: Current JavaFX Release and Early-Access Builds for Linux](images/banner.svg)
+![OpenJFX: Current JavaFX Release and Early-Access Builds](images/banner.svg)
 
 OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx). These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
@@ -113,7 +113,7 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, the current revision of the OpenJFX 17 package for *amd64* shows:
+For example, revision 96 of the OpenJFX Snap package (version 17.0.1+1 for *amd64*) contains the following lines in its manifest:
 
 ```yaml
 image-info:
@@ -219,7 +219,7 @@ BUILD SUCCESSFUL in 2m 3s
 136 actionable tasks: 136 executed
   ...
 Snapping...
-Snapped openjfx_18+4_amd64.snap
+Snapped openjfx_17.0.1+1_amd64.snap
 ```
 
 When the build completes, you'll find the Snap package in the project's root directory, along with the log file if you ran the build remotely.
