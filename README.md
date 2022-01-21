@@ -4,22 +4,30 @@ OpenJFX is the open-source project that develops JavaFX. This project builds [Sn
 
 The OpenJFX general-availability (GA) release and early-access (EA) builds are published for all of the hardware platforms listed below, identified by their Debian architecture name and machine hardware name:
 
-| Architecture | Hardware | OpenJFX 17 GA | OpenJFX 18 EA |
-|:------------:|:--------:|:-------------:|:-------------:|
-| amd64        | x86_64   | ✔ | ✔ |
-| arm64        | aarch64  | ✔ | ✔ |
-| armhf        | armv7l   | ✔ | ✔ |
-| i386         | i686     | ✔ | ✔ |
-| ppc64el      | ppc64le  | ✔ | ✔ |
-| s390x        | s390x    | ✔ | ✔ |
+| Architecture | Hardware | OpenJFX 17 GA | OpenJFX 18 EA | OpenJFX 19 EA |
+|:------------:|:--------:|:-------------:|:-------------:|:-------------:|
+| amd64        | x86_64   | ✔ | ✔ | ✔ |
+| arm64        | aarch64  | ✔ | ✔ | ✔ |
+| armhf        | armv7l   | ✔ | ✔ | ✔ |
+| i386         | i686     | ✔ | ✔ | ✔ |
+| ppc64el      | ppc64le  | ✔ | ✔ | ✔ |
+| s390x        | s390x    | ✔ | ✔ | ✔ |
 
 **Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The `snapcraft.yaml` build files are found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
 
-The list below links directly to each of the [Snapcraft build files](https://snapcraft.io/docs/snapcraft-yaml-reference):
+## Schedule
 
-* [`snap/snapcraft.yaml`](https://github.com/jgneff/openjfx/blob/candidate/snap/snapcraft.yaml) at candidate
-* [`snap/snapcraft.yaml`](https://github.com/jgneff/openjfx/blob/beta/snap/snapcraft.yaml) at beta
-* [`snap/snapcraft.yaml`](https://github.com/jgneff/openjfx/blob/edge/snap/snapcraft.yaml) at edge
+The table below maps the most recent release schedule to the channels of the OpenJFX Snap package. The channel columns show the JavaFX release found on the channel during each phase of the schedule.
+
+| Date       | Phase                     | Stable | Candidate | Beta | Edge |
+| ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
+| 2021-09-07 | General Availability      | 17 | ←  | ←  | 18 |
+| 2022-01-13 | Rampdown Phase One        | 17 | ←  | 18 | 19 |
+| 2022-02-03 | Rampdown Phase Two        | 17 | ←  | 18 | 19 |
+| 2022-02-24 | Release Candidate Freeze  | 17 | 18 | ←  | 19 |
+| 2022-03-15 | General Availability      | 18 | ←  | ←  | 19 |
+
+The leftwards arrow symbol (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
 
 ## Install
 
@@ -63,20 +71,6 @@ content[jfx-17-1804]  openjdk:jfx-17-1804  openjfx:jfx-17-1804  -
 
 This connection provides the OpenJDK Snap package with read access to the OpenJFX Software Development Kit (SDK) and shared libraries so that you can compile, package, link, and run JavaFX applications.
 
-## Schedule
-
-The table below maps the JavaFX 17 release schedule to the channels of the OpenJFX Snap package. The channel columns show the JavaFX release found on the channel during each phase of the schedule.
-
-| Date       | Phase                     | Stable | Candidate | Beta | Edge |
-| ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
-| 2021-09-07 | General Availability      | 17 | ←  | ←  | 18 |
-| 2022-01-13 | Rampdown Phase One        | 17 | ←  | 18 | 19 |
-| 2022-02-03 | Rampdown Phase Two        | 17 | ←  | 18 | 19 |
-| 2022-02-24 | Release Candidate Freeze  | 17 | 18 | ←  | 19 |
-| 2022-03-15 | General Availability      | 18 | ←  | ←  | 19 |
-
-The leftwards arrow symbol (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
-
 ## Trust
 
 The steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
@@ -113,18 +107,18 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, revision 199 of the OpenJFX Snap package (version 17.0.2+2 for *amd64*) contains the following lines in its manifest:
+For example, revision 228 of the OpenJFX Snap package (version 17.0.2+3 for *amd64*) contains the following lines in its manifest:
 
 ```yaml
 image-info:
-  build-request-id: lp-68027929
-  build-request-timestamp: '2021-12-16T01:58:00Z'
-  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1614079
+  build-request-id: lp-68714508
+  build-request-timestamp: '2022-01-19T01:13:29Z'
+  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1647358
 ```
 
 The `image-info` section is followed by other sections that provide the name and version of each package used during the build and any packages included in the run-time image.
 
-Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to reproduce it. That's the main recommendation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security at the Linux Foundation. "In the longer term," he writes, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." The OpenJFX project has only just started to [add the necessary support](https://github.com/openjdk/jfx/pull/446).
+Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to reproduce it. That's the main recommendation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security at the Linux Foundation. "In the longer term," he writes, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." The OpenJFX project is in the process of adding [support for reproducible builds](https://github.com/openjdk/jfx/pull/446).
 
 ## Usage
 
@@ -219,7 +213,7 @@ BUILD SUCCESSFUL in 2m 3s
 136 actionable tasks: 136 executed
   ...
 Snapping...
-Snapped openjfx_17.0.2+2_amd64.snap
+Snapped openjfx_17.0.2+3_amd64.snap
 ```
 
 When the build completes, you'll find the Snap package in the project's root directory, along with the log file if you ran the build remotely.
