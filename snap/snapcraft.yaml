@@ -74,16 +74,17 @@ parts:
   jfx:
     plugin: nil
     source: https://github.com/openjdk/jfx.git
+    source-type: git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
+    build-snaps:
+    - openjdk/latest/stable
     build-packages:
     - pkg-config
     - libgtk2.0-dev
     - libxtst-dev
     - libgtk-3-dev
     - libxxf86vm-dev
-    build-snaps:
-    - openjdk
     build-environment:
     - JAVA_HOME: /snap/openjdk/current/jdk
     - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
