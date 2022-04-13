@@ -35,7 +35,7 @@ description: |
   Java and OpenJDK are trademarks or registered trademarks of Oracle
   and/or its affiliates.
 
-version: '18+12'
+version: '18.0.1+0'
 license: GPL-2.0-with-classpath-exception
 
 base: core18
@@ -92,8 +92,11 @@ parts:
       # Gets the host and port from a proxy URL
       #   $1 = the proxy URL, such as "http://10.10.10.1:8222/"
       getproxy () {
-          host=$(echo "$1" | sed -E 's|https?://([^:/]*):?[0-9]*/?|\1|')
-          port=$(echo "$1" | sed -E 's|https?://[^:/]*:?([0-9]*)/?|\1|')
+          # Parses URL with Bash or Dash shell parameter expansion
+          tail=${1#http*://}
+          head=${tail%%/*}
+          host=${head%:*}
+          port=${head##*:}
       }
 
       # Applies patches for building on armhf, i386, ppc64el, and s390x
@@ -115,6 +118,8 @@ parts:
           getproxy "$https_proxy"
           set -- "$@" "-Dhttps.proxyHost=$host" "-Dhttps.proxyPort=$port"
       fi
+
+      # Builds JavaFX
       SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
       export SOURCE_DATE_EPOCH
       bash gradlew "$@" \
