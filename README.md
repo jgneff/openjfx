@@ -2,16 +2,16 @@
 
 OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx). These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
-The OpenJFX general-availability (GA) release and early-access (EA) builds are published for all of the hardware platforms listed below, identified by their Debian architecture name and machine hardware name:
+The OpenJFX general-availability (GA) release and early-access (EA) builds are published for all of the hardware platforms listed below, identified by their Debian architectures and machine hardware names:
 
-| Architecture | Hardware | OpenJFX 17 GA | OpenJFX 18 EA | OpenJFX 19 EA |
-|:------------:|:--------:|:-------------:|:-------------:|:-------------:|
-| amd64        | x86_64   | ✔ | ✔ | ✔ |
-| arm64        | aarch64  | ✔ | ✔ | ✔ |
-| armhf        | armv7l   | ✔ | ✔ | ✔ |
-| i386         | i686     | ✔ | ✔ | ✔ |
-| ppc64el      | ppc64le  | ✔ | ✔ | ✔ |
-| s390x        | s390x    | ✔ | ✔ | ✔ |
+| Architecture | Hardware | OpenJFX GA | OpenJFX EA |
+|:------------:|:--------:|:----------:|:----------:|
+| amd64        | x86_64   | ✔ | ✔ |
+| arm64        | aarch64  | ✔ | ✔ |
+| armhf        | armv7l   | ✔ | ✔ |
+| i386         | i686     | ✔ | ✔ |
+| ppc64el      | ppc64le  | ✔ | ✔ |
+| s390x        | s390x    | ✔ | ✔ |
 
 **Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The `snapcraft.yaml` build files are found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
 
@@ -61,12 +61,12 @@ $ sudo dnf install java-latest-openjdk-jmods
 $ sudo dnf install java-latest-openjdk-javadoc
 ```
 
-On any Linux system, you can also install the [OpenJDK Snap package](https://snapcraft.io/openjdk) to get the current JDK release or an early-access build. When you install the same major version of the OpenJDK and OpenJFX Snap packages, they will connect automatically, allowing you to develop and deploy both Java and JavaFX applications. For example, installing the OpenJDK 17 and OpenJFX 17 Snap packages results in the following connection:
+On any Linux system, you can also install the [OpenJDK Snap package](https://snapcraft.io/openjdk) to get the current JDK release or an early-access build. When you install the same major version of the OpenJDK and OpenJFX Snap packages, they will connect automatically, allowing you to develop and deploy both Java and JavaFX applications. For example, installing the latest OpenJDK and OpenJFX Snap packages results in the following connection:
 
 ```console
 $ snap connections openjfx
 Interface             Plug                 Slot                 Notes
-content[jfx-17-1804]  openjdk:jfx-17-1804  openjfx:jfx-17-1804  -
+content[jfx-18-1804]  openjdk:jfx-18-1804  openjfx:jfx-18-1804  -
 ```
 
 This connection provides the OpenJDK Snap package with read access to the OpenJFX Software Development Kit (SDK) and shared libraries so that you can compile, package, link, and run JavaFX applications.
@@ -77,7 +77,7 @@ The steps in building the packages are open and transparent so that you can gain
 
 | Channel   | Build          | Source              | Package                |
 | --------- | -------------- | ------------------- | ---------------------- |
-| candidate | [candidate][1] | [openjdk/jfx17u][4] | [openjfx-candidate][7] |
+| candidate | [candidate][1] | [openjdk/jfx][4]    | [openjfx-candidate][7] |
 | beta      | [beta][2]      | [openjdk/jfx][5]    | [openjfx-beta][8]      |
 | edge      | [edge][3]      | [openjdk/jfx][6]    | [openjfx-edge][9]      |
 
@@ -85,7 +85,7 @@ The steps in building the packages are open and transparent so that you can gain
 [2]: https://github.com/jgneff/openjfx/blob/beta/snap/snapcraft.yaml
 [3]: https://github.com/jgneff/openjfx/blob/edge/snap/snapcraft.yaml
 
-[4]: https://github.com/openjdk/jfx17u/tags
+[4]: https://github.com/openjdk/jfx/tags
 [5]: https://github.com/openjdk/jfx/tags
 [6]: https://github.com/openjdk/jfx/tags
 
@@ -107,15 +107,6 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, revision 228 of the OpenJFX Snap package (version 17.0.2+3 for *amd64*) contains the following lines in its manifest:
-
-```yaml
-image-info:
-  build-request-id: lp-68714508
-  build-request-timestamp: '2022-01-19T01:13:29Z'
-  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1647358
-```
-
 The `image-info` section is followed by other sections that provide the name and version of each package used during the build and any packages included in the run-time image.
 
 Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to reproduce it. That's the main recommendation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security at the Linux Foundation. "In the longer term," he writes, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." The OpenJFX project is in the process of adding [support for reproducible builds](https://github.com/openjdk/jfx/pull/446).
@@ -129,7 +120,7 @@ Once installed, the OpenJFX Snap package includes the following directories:
 * `/snap/openjfx/current/sdk/lib` - Modular JAR files and native libraries
 * `/snap/openjfx/current/sdk/src` - Java source code of JavaFX
 
-On Fedora-based systems, these directories are found under the root directory `/var/lib/snapd` instead of the locations shown above for Debian-based systems.
+On Fedora-based systems, these directories are found under the root directory `/var/lib/snapd` as a prefix to the locations shown above for Debian-based systems.
 
 The JDK tools need to know two locations: the JavaFX library directory and the JMOD archives directory. The OpenJFX Snap package provides these locations with two environment variables, as described below.
 
@@ -213,7 +204,7 @@ BUILD SUCCESSFUL in 2m 3s
 136 actionable tasks: 136 executed
   ...
 Snapping...
-Snapped openjfx_17.0.2+3_amd64.snap
+Snapped openjfx_18.0.1+2_amd64.snap
 ```
 
 When the build completes, you'll find the Snap package in the project's root directory, along with the log file if you ran the build remotely.
