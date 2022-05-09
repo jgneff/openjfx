@@ -21,11 +21,11 @@ The table below maps the most recent release schedule to the channels of the Ope
 
 | Date       | Phase                     | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
-| 2021-09-07 | General Availability      | 17 | ←  | ←  | 18 |
-| 2022-01-13 | Rampdown Phase One        | 17 | ←  | 18 | 19 |
-| 2022-02-03 | Rampdown Phase Two        | 17 | ←  | 18 | 19 |
-| 2022-02-24 | Release Candidate Freeze  | 17 | 18 | ←  | 19 |
 | 2022-03-15 | General Availability      | 18 | ←  | ←  | 19 |
+| 2022-07-14 | Rampdown Phase One        | 18 | ←  | 19 | 20 |
+| 2022-08-04 | Rampdown Phase Two        | 18 | ←  | 19 | 20 |
+| 2022-08-25 | Release Candidate Freeze  | 18 | 19 | ←  | 20 |
+| 2022-09-13 | General Availability      | 19 | ←  | ←  | 20 |
 
 The leftwards arrow symbol (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
 
@@ -47,7 +47,7 @@ $ sudo snap install openjfx --beta
 $ sudo snap install openjfx --edge
 ```
 
-You'll also need the Java Development Kit (JDK). On Debian-based systems such as Ubuntu, you can install the latest OpenJDK Long Term Support (LTS) release and documentation with the command:
+You'll also need the Java Development Kit (JDK). On Debian-based systems such as Ubuntu, you can install the latest fully-supported OpenJDK release and documentation with the command:
 
 ```console
 $ sudo apt install default-jdk default-jdk-doc
