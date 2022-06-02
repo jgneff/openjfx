@@ -128,7 +128,7 @@ The `openjfx` command prints the location of a file that defines the environment
 
 ```console
 $ openjfx
-/var/snap/openjfx/common/openjfx.env
+/var/snap/openjfx/x1/openjfx.env
 ```
 
 The file exports the `JAVAFX_LIB` and `JAVAFX_MOD` environment variables:
