@@ -122,7 +122,7 @@ parts:
       # Builds JavaFX
       SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
       export SOURCE_DATE_EPOCH
-      bash gradlew "$@" \
+      bash gradlew --no-daemon "$@" \
           -PPROMOTED_BUILD_NUMBER="${SNAPCRAFT_PROJECT_VERSION#*+}" \
           -PRELEASE_SUFFIX="" \
           -PJDK_DOCS="$JDK_DOCS" \
