@@ -51,12 +51,14 @@ architectures:
 - build-on: s390x
 
 slots:
+  jfx-18-1804:
+    interface: content
+    source:
+      read: [$SNAP/sdk, $SNAP/usr/lib]
   jfx-19-1804:
     interface: content
     source:
-      read:
-      - $SNAP/sdk
-      - $SNAP/usr/lib
+      read: [$SNAP/sdk, $SNAP/usr/lib]
 
 apps:
   openjfx:
