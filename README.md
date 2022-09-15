@@ -1,11 +1,11 @@
-![OpenJFX: Current JavaFX Release and Early-Access Builds](images/banner.svg)
+![OpenJFX: Current JavaFX release and early-access builds](images/banner.svg)
 
-OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx). These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
+OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx) on GitHub. These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
-The OpenJFX general-availability (GA) release and early-access (EA) builds are published for all of the hardware platforms listed below, identified by their Debian architectures and machine hardware names:
+The branches of this repository publish the JavaFX general-availability (GA) release and early-access (EA) builds for six hardware platforms, listed below by their Debian architectures and machine hardware names:
 
-| Architecture | Hardware | OpenJFX GA | OpenJFX EA |
-|:------------:|:--------:|:----------:|:----------:|
+| Architecture | Hardware | JavaFX GA | JavaFX EA |
+|:------------:|:--------:|:---------:|:---------:|
 | amd64        | x86_64   | ✔ | ✔ |
 | arm64        | aarch64  | ✔ | ✔ |
 | armhf        | armv7l   | ✔ | ✔ |
@@ -17,7 +17,7 @@ The OpenJFX general-availability (GA) release and early-access (EA) builds are p
 
 ## Schedule
 
-The table below maps the most recent release schedule to the channels of the OpenJFX Snap package. The channel columns show the JavaFX release found on the channel during each phase of the schedule.
+The table below shows the most recent schedule for OpenJFX. The channel columns list the JavaFX releases found on the channel during each phase of the schedule.
 
 | Date       | Phase                     | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
@@ -27,7 +27,7 @@ The table below maps the most recent release schedule to the channels of the Ope
 | 2022-08-25 | Release Candidate Freeze  | 18 | 19 | ←  | 20 |
 | 2022-09-13 | General Availability      | 19 | ←  | ←  | 20 |
 
-The leftwards arrow symbol (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level to the left in the table. If the channel is re-opened, packages will once again be selected from the original channel.
+The leftwards arrow (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level in the column to its left. If the channel is re-opened, packages will once again be selected from the original channel.
 
 ## Install
 
@@ -61,7 +61,13 @@ $ sudo dnf install java-latest-openjdk-jmods
 $ sudo dnf install java-latest-openjdk-javadoc
 ```
 
-On any Linux system, you can also install the [OpenJDK Snap package](https://snapcraft.io/openjdk) to get the current JDK release or an early-access build. When you install the same major version of the OpenJDK and OpenJFX Snap packages, they will connect automatically, allowing you to develop and deploy both Java and JavaFX applications. For example, installing the latest OpenJDK and OpenJFX Snap packages results in the following connection:
+On any Linux system, you can install the [OpenJDK Snap package](https://snapcraft.io/openjdk) to get the current JDK release or an early-access build:
+
+```console
+$ sudo snap install openjdk
+```
+
+When you install the OpenJDK and OpenJFX Snap packages, they connect automatically, allowing you to develop and deploy both Java and JavaFX applications. For example, installing the latest OpenJDK and OpenJFX Snap packages results in the following connection:
 
 ```console
 $ snap connections openjfx
@@ -75,11 +81,11 @@ This connection provides the OpenJDK Snap package with read access to the OpenJF
 
 The steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
 
-| Channel   | Build          | Source              | Package                |
-| --------- | -------------- | ------------------- | ---------------------- |
-| candidate | [candidate][1] | [openjdk/jfx][4]    | [openjfx-candidate][7] |
-| beta      | [beta][2]      | [openjdk/jfx][5]    | [openjfx-beta][8]      |
-| edge      | [edge][3]      | [openjdk/jfx][6]    | [openjfx-edge][9]      |
+| Snap Channel   | Build File     | Source Code         | Snap Package           |
+| -------------- | -------------- | ------------------- | ---------------------- |
+| candidate      | [candidate][1] | [openjdk/jfx][4]    | [openjfx-candidate][7] |
+| beta           | [beta][2]      | [openjdk/jfx][5]    | [openjfx-beta][8]      |
+| edge           | [edge][3]      | [openjdk/jfx][6]    | [openjfx-edge][9]      |
 
 [1]: https://github.com/jgneff/openjfx/blob/candidate/snap/snapcraft.yaml
 [2]: https://github.com/jgneff/openjfx/blob/beta/snap/snapcraft.yaml
@@ -96,8 +102,8 @@ The steps in building the packages are open and transparent so that you can gain
 For each of the three channels, the table above links to:
 
 * the Snapcraft build file that creates the Snap package,
-* the release tags of the OpenJFX source code repository on GitHub, and
-* the package information and latest builds on Launchpad.
+* the release tags used to obtain the OpenJFX source code, and
+* information about the package and its latest builds on Launchpad.
 
 General-availability releases published to the *candidate* channel are eventually promoted to the *stable* channel.
 
@@ -105,11 +111,53 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 ## Verify
 
-Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build logs. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The section `image-info` provides a link to a page on Launchpad with the build status and details, including the log file from the machine where it ran. The log file lets you verify that the package was built from source using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
+Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build log. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The `image-info` section of the manifest provides a link to the package's page on Launchpad with its build status, including the complete log file from the container that ran the build. You can use this information to verify that the OpenJFX Snap package installed on your system was built from source on Launchpad using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-The `image-info` section is followed by other sections that provide the name and version of each package used during the build and any packages included in the run-time image.
+For example, I'll demonstrate how I verify the OpenJFX Snap package installed on my system at the time of this writing. The `snap info` command shows that I installed OpenJFX version 19+11 with revision 492, the revision for the *amd64* architecture:
 
-Having a transparent build process is a good first step, but the only conclusive way to verify a software package is to reproduce it. That's the main recommendation in the article [Preventing Supply Chain Attacks like SolarWinds](https://www.linuxfoundation.org/en/blog/preventing-supply-chain-attacks-like-solarwinds) by David Wheeler, Director of Open Source Supply Chain Security at the Linux Foundation. "In the longer term," he writes, "I know of only one strong countermeasure for this kind of attack: verified reproducible builds." The OpenJFX project is in the process of adding [support for reproducible builds](https://github.com/openjdk/jfx/pull/446).
+```console
+$ snap info openjfx
+...
+channels:
+  latest/stable:    19+11 2022-09-13 (492) 103MB -
+  latest/candidate: ↑
+  latest/beta:      ↑
+  latest/edge:      20+2  2022-09-06 (487) 103MB -
+installed:          19+11            (492) 103MB -
+```
+
+The following command prints the build information from the manifest file:
+
+```console
+$ grep -A3 image-info /snap/openjfx/current/snap/manifest.yaml
+image-info:
+  build-request-id: lp-73868054
+  build-request-timestamp: '2022-09-06T18:54:10Z'
+  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1872558
+```
+
+The `build_url` in the manifest is a link to the [page on Launchpad](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1872558) with the package's **Build status** and **Store status**. The store status shows that Launchpad uploaded revision 492 to the Snap Store, which matches the revision installed on my system. The build status shows a link to the log file with the label *buildlog*.
+
+The end of the log file contains a line with the SHA512 checksum of the package just built, shown below with the checksum edited to fit on this page:
+
+```
+Snapping...
+Snapped openjfx_19+11_amd64.snap
+Starting Snapcraft 7.1.3
+Logging execution to
+  '/root/.cache/snapcraft/log/snapcraft-20220906-190023.847592.log'
+52719a1cdb877437...0346edd1badce42f  openjfx_19+11_amd64.snap
+Revoking proxy token...
+```
+
+The command below prints the checksum of the package installed on my system:
+
+```console
+$ sudo sha512sum /var/lib/snapd/snaps/openjfx_492.snap
+52719a1cdb877437...0346edd1badce42f  /var/lib/snapd/snaps/openjfx_492.snap
+```
+
+The two checksum strings are identical. Using this procedure, I verified that the OpenJFX Snap package installed on my system and the OpenJFX Snap package built and uploaded to the Snap Store by Launchpad are in fact the exact same package. For more information, see [Launchpad Bug #1979844](https://bugs.launchpad.net/launchpad/+bug/1979844), "Allow verifying that a snap recipe build corresponds to a store revision."
 
 ## Usage
 
@@ -163,54 +211,27 @@ $ export JAVAFX_MOD=/snap/openjfx/current/sdk/jmods
 
 Once defined, you can use these variables in arguments to the `java`, `javac`, `javadoc`, `jlink`, and `jpackage` tools of the JDK.
 
-## Building
+## Build
 
-On Linux systems, you can build the Snap package directly by installing [Snapcraft](https://snapcraft.io/snapcraft) on your development workstation. The bottom of the Snapcraft page shows how to enable Snaps for your Linux distribution.
-
-Whether you're running Windows, macOS, or Linux, you can use [Multipass](https://multipass.run) to build this project in an Ubuntu virtual machine (VM). For example, the following command will launch the Multipass [primary instance](https://multipass.run/docs/primary-instance) with 2 CPUs, 4 GiB of RAM, and Ubuntu 20.04 LTS (Focal Fossa):
+You can build the Snap package on Linux by installing [Snapcraft](https://snapcraft.io/snapcraft) on your development workstation. The `snap/snapcraft.yaml` files on the *candidate*, *beta*, and *edge* branches define the build for each channel. Run the following commands to install Snapcraft, clone this repository, and start building the package:
 
 ```console
-$ multipass launch --name primary --cpus 2 --mem 4G focal
-```
-
-The `snap/snapcraft.yaml` files on the *candidate*, *beta*, and *edge* branches define the build of the Snap package. Run the following commands to install Snapcraft, clone this repository, and start building the package:
-
-```console
-$ sudo snap install snapcraft
+$ sudo snap install snapcraft --classic
 $ git clone https://github.com/jgneff/openjfx.git
 $ cd openjfx
 $ snapcraft
 ```
 
-Snapcraft launches a new Multipass VM to ensure a clean and isolated build environment. The VM is named `snapcraft-openjfx` and runs Ubuntu 18.04 LTS (Bionic Beaver). The project's directory on the host system is mounted as `/root/project` in the guest VM, so any changes you make on the host are seen immediately in the guest, and vice versa.
-
-**Note:** If you run the initial `snapcraft` command itself inside a VM, your system will need *nested VM* functionality. See the [Build Options](https://snapcraft.io/docs/build-options) page for alternatives, such as running a remote build or using an LXD container.
-
-If the build fails, you can run the command again with the `--debug` (or `-d`) option to remain in the VM after the error:
+To run the build remotely on Launchpad, enter the command:
 
 ```console
-$ snapcraft -d
+$ snapcraft remote-build
 ```
 
-From within the VM, you can then clean the Snapcraft part and try again:
+See the [Snapcraft Overview](https://snapcraft.io/docs/snapcraft-overview) page for more information about building Snap packages.
 
-```console
-# snapcraft clean jfx
-Cleaning pull step (and all subsequent steps) for jfx
-  ...
-# snapcraft
-  ...
-BUILD SUCCESSFUL in 2m 3s
-136 actionable tasks: 136 executed
-  ...
-Snapping...
-Snapped openjfx_18.0.1+2_amd64.snap
-```
-
-When the build completes, you'll find the Snap package in the project's root directory, along with the log file if you ran the build remotely.
-
-## License and Trademarks
+## License
 
 This project is licensed under the GNU General Public License v2.0 with the Classpath exception, the same license used by Oracle for the OpenJFX project. See the files [LICENSE](LICENSE) and [ADDITIONAL_LICENSE_INFO](ADDITIONAL_LICENSE_INFO) for details.
 
-Java, JavaFX, and OpenJDK are trademarks or registered trademarks of Oracle and/or its affiliates. See the file [TRADEMARK](TRADEMARK) for details.
+Java and OpenJDK are trademarks or registered trademarks of Oracle and/or its affiliates. See the file [TRADEMARK](TRADEMARK) for details.
