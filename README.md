@@ -15,6 +15,12 @@ The branches of this repository publish the JavaFX general-availability (GA) rel
 
 **Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The `snapcraft.yaml` build files are found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
 
+## See also
+
+* [OpenJDK](https://github.com/jgneff/openjdk) - Current JDK release and early-access builds
+* [Strictly Maven](https://github.com/jgneff/strictly-maven) - Apache Maven™ in a strictly-confined snap
+* [Strictly NetBeans](https://github.com/jgneff/strictly-netbeans) - Apache NetBeans® in a strictly-confined snap
+
 ## Schedule
 
 The table below shows the most recent schedule for OpenJFX. The channel columns list the JavaFX releases found on the channel during each phase of the schedule.
@@ -72,7 +78,8 @@ When you install the OpenJDK and OpenJFX Snap packages, they connect automatical
 ```console
 $ snap connections openjfx
 Interface             Plug                 Slot                 Notes
-content[jfx-18-1804]  openjdk:jfx-18-1804  openjfx:jfx-18-1804  -
+content               -                    openjfx:jfx-18-1804  -
+content[jfx-19-1804]  openjdk:jfx-19-1804  openjfx:jfx-19-1804  -
 ```
 
 This connection provides the OpenJDK Snap package with read access to the OpenJFX Software Development Kit (SDK) and shared libraries so that you can compile, package, link, and run JavaFX applications.
@@ -113,17 +120,17 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build log. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The `image-info` section of the manifest provides a link to the package's page on Launchpad with its build status, including the complete log file from the container that ran the build. You can use this information to verify that the OpenJFX Snap package installed on your system was built from source on Launchpad using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, I'll demonstrate how I verify the OpenJFX Snap package installed on my system at the time of this writing. The `snap info` command shows that I installed OpenJFX version 19+11 with revision 492, the revision for the *amd64* architecture:
+For example, I'll demonstrate how I verify the OpenJFX Snap package installed on my system at the time of this writing. The `snap info` command shows that I installed OpenJFX version 19+11 with revision 512, the revision for the *amd64* architecture:
 
 ```console
 $ snap info openjfx
 ...
 channels:
-  latest/stable:    19+11 2022-09-13 (492) 103MB -
+  latest/stable:    19+11 2022-09-16 (512) 103MB -
   latest/candidate: ↑
   latest/beta:      ↑
-  latest/edge:      20+2  2022-09-06 (487) 103MB -
-installed:          19+11            (492) 103MB -
+  latest/edge:      20+3  2022-09-16 (511) 103MB -
+installed:          19+11            (512) 103MB -
 ```
 
 The following command prints the build information from the manifest file:
@@ -131,12 +138,12 @@ The following command prints the build information from the manifest file:
 ```console
 $ grep -A3 image-info /snap/openjfx/current/snap/manifest.yaml
 image-info:
-  build-request-id: lp-73868054
-  build-request-timestamp: '2022-09-06T18:54:10Z'
-  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1872558
+  build-request-id: lp-74095810
+  build-request-timestamp: '2022-09-16T16:00:56Z'
+  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1882555
 ```
 
-The `build_url` in the manifest is a link to the [page on Launchpad](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1872558) with the package's **Build status** and **Store status**. The store status shows that Launchpad uploaded revision 492 to the Snap Store, which matches the revision installed on my system. The build status shows a link to the log file with the label *buildlog*.
+The `build_url` in the manifest is a link to the [page on Launchpad](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1882555) with the package's **Build status** and **Store status**. The store status shows that Launchpad uploaded revision 512 to the Snap Store, which matches the revision installed on my system. The build status shows a link to the log file with the label *buildlog*.
 
 The end of the log file contains a line with the SHA512 checksum of the package just built, shown below with the checksum edited to fit on this page:
 
@@ -145,16 +152,16 @@ Snapping...
 Snapped openjfx_19+11_amd64.snap
 Starting Snapcraft 7.1.3
 Logging execution to
-  '/root/.cache/snapcraft/log/snapcraft-20220906-190023.847592.log'
-52719a1cdb877437...0346edd1badce42f  openjfx_19+11_amd64.snap
+  '/root/.cache/snapcraft/log/snapcraft-20220916-160844.287206.log'
+da3302f078740d55...0a38cea62d6b18b1  openjfx_19+11_amd64.snap
 Revoking proxy token...
 ```
 
 The command below prints the checksum of the package installed on my system:
 
 ```console
-$ sudo sha512sum /var/lib/snapd/snaps/openjfx_492.snap
-52719a1cdb877437...0346edd1badce42f  /var/lib/snapd/snaps/openjfx_492.snap
+$ sudo sha512sum /var/lib/snapd/snaps/openjfx_512.snap
+da3302f078740d55...0a38cea62d6b18b1  /var/lib/snapd/snaps/openjfx_512.snap
 ```
 
 The two checksum strings are identical. Using this procedure, I verified that the OpenJFX Snap package installed on my system and the OpenJFX Snap package built and uploaded to the Snap Store by Launchpad are in fact the exact same package. For more information, see [Launchpad Bug #1979844](https://bugs.launchpad.net/launchpad/+bug/1979844), "Allow verifying that a snap recipe build corresponds to a store revision."
