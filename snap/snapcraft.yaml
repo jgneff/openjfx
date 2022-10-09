@@ -23,10 +23,10 @@ description: |
   rich client applications that operate consistently across a diverse
   set of platforms.
 
-  This package, together with OpenJDK 11 or later, provides everything
+  This package, together with OpenJDK 17 or later, provides everything
   you need to develop a JavaFX application on Linux, including all
-  of the latest JAR files, native libraries, JMOD archives, API
-  documentation, and source code of JavaFX.
+  of the latest modular JAR files, native libraries, JMOD archives,
+  API documentation, and source code of JavaFX.
 
   To get started, see the README file for this package on GitHub:
 
@@ -51,10 +51,6 @@ architectures:
 - build-on: s390x
 
 slots:
-  jfx-18-1804:
-    interface: content
-    source:
-      read: [$SNAP/sdk, $SNAP/usr/lib]
   jfx-19-1804:
     interface: content
     source:
@@ -95,15 +91,27 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      # See: https://forum.snapcraft.io/t/17597
-      if [ -z "$SNAPCRAFT_PROJECT_VERSION" ]; then
-          major=20
-          version=$(curl -s https://github.com/openjdk/jfx/tags.atom \
+      # Gets the version from the latest release tag on GitHub
+      getversion() {
+          # JavaFX major version (jfx.release.major.version)
+          local major=20
+          curl -s https://github.com/openjdk/jfx/tags.atom \
               | grep "<title>$major" \
-              | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|')
-          snapcraftctl set-version "$version"
-          printf "export SNAPCRAFT_PROJECT_VERSION=%s\n" "$version" \
+              | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|'
+      }
+
+      # Sets the version and saves its environment variable
+      #   $1 = the version string
+      setversion() {
+          snapcraftctl set-version "$1"
+          printf "export SNAPCRAFT_PROJECT_VERSION=%s\n" "$1" \
               > /tmp/snapcraft-project-version
+      }
+
+      # See https://forum.snapcraft.io/t/17597
+      if [ -z "$SNAPCRAFT_PROJECT_VERSION" ]; then
+          version=$(getversion)
+          setversion "$version"
           git clone --branch "$version" --depth 1 \
               https://github.com/openjdk/jfx.git "$SNAPCRAFT_PART_SRC"
       else
@@ -113,19 +121,20 @@ parts:
     - JAVA_HOME: /usr/lib/jvm/java-17-openjdk-$SNAPCRAFT_TARGET_ARCH
     - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
     override-build: |
-      if [ -z "$SNAPCRAFT_PROJECT_VERSION" ]; then
-          . /tmp/snapcraft-project-version
-      fi
-
       # Gets the host and port from a proxy URL
       #   $1 = the proxy URL, such as "http://10.10.10.1:8222/"
       getproxy () {
-          # Parses URL with Bash or Dash shell parameter expansion
+          # Parses the URL using shell parameter expansion
           tail=${1#http*://}
           head=${tail%%/*}
           host=${head%:*}
           port=${head##*:}
       }
+
+      # Loads the version environment variable if not defined
+      if [ -z "$SNAPCRAFT_PROJECT_VERSION" ]; then
+          . /tmp/snapcraft-project-version
+      fi
 
       # Applies patches for building on armhf, i386, ppc64el, and s390x
       case $SNAPCRAFT_TARGET_ARCH in
@@ -147,9 +156,11 @@ parts:
           set -- "$@" "-Dhttps.proxyHost=$host" "-Dhttps.proxyPort=$port"
       fi
 
-      # Builds JavaFX
+      # Sets the environment variable for reproducible builds
       SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
       export SOURCE_DATE_EPOCH
+
+      # Builds JavaFX
       bash gradlew --no-daemon "$@" \
           -PPROMOTED_BUILD_NUMBER="${SNAPCRAFT_PROJECT_VERSION#*+}" \
           -PRELEASE_SUFFIX="-ea" \
