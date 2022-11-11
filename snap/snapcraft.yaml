@@ -96,7 +96,7 @@ parts:
           # JavaFX major version (jfx.release.major.version)
           local major=19
           curl -s https://github.com/openjdk/jfx/tags.atom \
-              | grep "<title>$major" \
+              | grep "<title>${major}[.0-9]*+" \
               | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|'
       }
 
