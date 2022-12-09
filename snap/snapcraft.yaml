@@ -91,10 +91,12 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      # Gets the version from the latest release tag on GitHub
-      getversion() {
+      release=20
+
+      # Gets the JavaFX version from the latest release tag on GitHub
+      jfxversion() {
           # JavaFX major version (jfx.release.major.version)
-          local major=20
+          local major=$release
           curl -s https://github.com/openjdk/jfx/tags.atom \
               | grep "<title>${major}[.0-9]*+" \
               | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|'
@@ -110,7 +112,7 @@ parts:
 
       # See https://forum.snapcraft.io/t/17597
       if [ -z "$SNAPCRAFT_PROJECT_VERSION" ]; then
-          version=$(getversion)
+          version=$(jfxversion)
           setversion "$version"
           git clone --branch "$version" --depth 1 \
               https://github.com/openjdk/jfx.git "$SNAPCRAFT_PART_SRC"
