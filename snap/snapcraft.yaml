@@ -1,5 +1,5 @@
 # snapcraft.yaml - builds a Snap package of OpenJFX
-# Copyright (C) 2020-2022 John Neffenger
+# Copyright (C) 2020-2023 John Neffenger
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -92,13 +92,16 @@ parts:
     - libxxf86vm-dev
     override-pull: |
       release=19
+      giturl=https://github.com/openjdk/jfx.git
+      tagurl=https://github.com/openjdk/jfx/tags.atom
 
       # Gets the JavaFX version from the latest release tag on GitHub
-      jfxversion() {
-          # JavaFX major version (jfx.release.major.version)
-          local major=$release
-          curl -s https://github.com/openjdk/jfx/tags.atom \
-              | grep "<title>${major}[.0-9]*+" \
+      #   $1 = JavaFX major version number (jfx.release.major.version)
+      #   $2 = URL of Atom web feed providing recent tags on GitHub
+      getversion() {
+          local major=$1
+          local webfeed=$2
+          curl -s "$webfeed" | grep "<title>${major}[.0-9]*+" \
               | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|'
       }
 
@@ -112,10 +115,10 @@ parts:
 
       # See https://forum.snapcraft.io/t/17597
       if [ -z "$SNAPCRAFT_PROJECT_VERSION" ]; then
-          version=$(jfxversion)
+          version=$(getversion $release $tagurl)
           setversion "$version"
           git clone --branch "$version" --depth 1 \
-              https://github.com/openjdk/jfx.git "$SNAPCRAFT_PART_SRC"
+              $giturl "$SNAPCRAFT_PART_SRC"
       else
           snapcraftctl pull
       fi
