@@ -1,19 +1,19 @@
 ![OpenJFX: Current JavaFX release and early-access builds](images/banner.svg)
 
-OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx) on GitHub. These packages, together with OpenJDK 11 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
+OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx) on GitHub. These packages, together with OpenJDK 17 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
-The branches of this repository publish the JavaFX general-availability (GA) release and early-access (EA) builds for six hardware platforms, listed below by their Debian architectures and machine hardware names:
+The branches of this repository publish the JavaFX general-availability release (JavaFX GA) and early-access builds (JavaFX EA) for six hardware platforms. They are listed below by their Debian architecture (`dpkg --print-architecture`), machine hardware name (`uname -m`), and Java architecture (`os.arch`):
 
-| Architecture | Machine | JavaFX GA | JavaFX EA |
-|:------------:|:-------:|:---------:|:---------:|
-| amd64        | x86_64  | ✔ | ✔ |
-| arm64        | aarch64 | ✔ | ✔ |
-| armhf        | armv7l  | ✔ | ✔ |
-| i386         | i686    | ✔ | ✔ |
-| ppc64el      | ppc64le | ✔ | ✔ |
-| s390x        | s390x   | ✔ | ✔ |
+| Debian  | Machine | Java    | JavaFX GA | JavaFX EA |
+|:-------:|:-------:|:-------:|:---------:|:---------:|
+| amd64   | x86_64  | amd64   | ✔ | ✔ |
+| arm64   | aarch64 | aarch64 | ✔ | ✔ |
+| armhf   | armv7l  | arm     | ✔ | ✔ |
+| i386    | i686    | i386    | ✔ | ✔ |
+| ppc64el | ppc64le | ppc64le | ✔ | ✔ |
+| s390x   | s390x   | s390x   | ✔ | ✔ |
 
-**Note:** this repository uses branches differently from most repositories on GitHub. It follows the workflow recommended by Junio Hamano, the core maintainer of Git, for managing [permanent parallel branches](https://www.spinics.net/linux/lists/git/msg94767.html). The `snapcraft.yaml` build files are found only on the *candidate*, *beta*, and *edge* branches, named after the Snap channels where the builds are published. The files common to all branches are updated only on the *main* branch. Merges are done from the *main* branch to the three channel branches, never the other way.
+**Note:** The branches of this repository are named after the Snap channels where the builds are published: *edge*, *beta*, *candidate*, and *stable*. The HEAD branch is *edge*, and merges follow the Snap package releases from *edge* into *beta*, *beta* into *candidate*, and *candidate* into *stable*.
 
 ## See also
 
@@ -37,15 +37,15 @@ This project is one of four that I created to gain control of my development env
 
 ## Schedule
 
-The table below shows the most recent schedule for OpenJFX. The channel columns list the JavaFX releases found on the channel during each phase of the schedule.
+The table below contains the most recent schedule for OpenJFX. The channel columns show the JavaFX releases found on the channels during each phase of the schedule.
 
-| Date       | Phase                     | Stable | Candidate | Beta | Edge |
-| ---------- | ------------------------- |:------:|:---------:|:----:|:----:|
-| 2022-09-13 | General Availability      | 19 | ←  | ←  | 20 |
-| 2023-01-12 | Rampdown Phase One        | 19 | ←  | 20 | 21 |
-| 2023-02-02 | Rampdown Phase Two        | 19 | ←  | 20 | 21 |
-| 2023-03-02 | Release Candidate Freeze  | 19 | 20 | ←  | 21 |
-| 2023-03-21 | General Availability      | 20 | ←  | ←  | 21 |
+| Date       | Phase                    | Stable | Candidate | Beta | Edge |
+| ---------- | ------------------------ |:------:|:---------:|:----:|:----:|
+| 2023-03-21 | General Availability     | 20 | ←  | ←  | 21 |
+| 2023-07-13 | Rampdown Phase One       | 20 | ←  | 21 | 22 |
+| 2023-08-03 | Rampdown Phase Two       | 20 | ←  | 21 | 22 |
+| 2023-08-31 | Release Candidate Freeze | 20 | 21 | ←  | 22 |
+| 2023-09-19 | General Availability     | 21 | ←  | ←  | 22 |
 
 The leftwards arrow (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level in the column to its left. If the channel is re-opened, packages will once again be selected from the original channel.
 
@@ -92,8 +92,8 @@ When you install the OpenJDK and OpenJFX Snap packages, they connect automatical
 ```console
 $ snap connections openjfx
 Interface             Plug                 Slot                 Notes
-content               -                    openjfx:jfx-18-1804  -
-content[jfx-19-1804]  openjdk:jfx-19-1804  openjfx:jfx-19-1804  -
+content               -                    openjfx:jfx-19-1804  -
+content[jfx-20-1804]  openjdk:jfx-20-1804  openjfx:jfx-20-1804  -
 ```
 
 This connection provides the OpenJDK Snap package with read access to the OpenJFX Software Development Kit (SDK) and shared libraries so that you can compile, package, link, and run JavaFX applications.
@@ -102,17 +102,17 @@ This connection provides the OpenJDK Snap package with read access to the OpenJF
 
 The steps in building the packages are open and transparent so that you can gain trust in the process that creates them instead of having to put all of your trust in their publisher.
 
-| Snap Channel   | Build File     | Source Code         | Snap Package           |
-| -------------- | -------------- | ------------------- | ---------------------- |
-| candidate      | [candidate][1] | [openjdk/jfx][4]    | [openjfx-candidate][7] |
-| beta           | [beta][2]      | [openjdk/jfx][5]    | [openjfx-beta][8]      |
-| edge           | [edge][3]      | [openjdk/jfx][6]    | [openjfx-edge][9]      |
+| Snap Channel | Build File          | Source Code         | Snap Package           |
+| ------------ | ------------------- | ------------------- | ---------------------- |
+| candidate    | [snapcraft.yaml][1] | [openjdk/jfx20u][4] | [openjfx-candidate][7] |
+| beta         | [snapcraft.yaml][2] | [openjdk/jfx][5]    | [openjfx-beta][8]      |
+| edge         | [snapcraft.yaml][3] | [openjdk/jfx][6]    | [openjfx-edge][9]      |
 
 [1]: https://github.com/jgneff/openjfx/blob/candidate/snap/snapcraft.yaml
 [2]: https://github.com/jgneff/openjfx/blob/beta/snap/snapcraft.yaml
 [3]: https://github.com/jgneff/openjfx/blob/edge/snap/snapcraft.yaml
 
-[4]: https://github.com/openjdk/jfx/tags
+[4]: https://github.com/openjdk/jfx20u/tags
 [5]: https://github.com/openjdk/jfx/tags
 [6]: https://github.com/openjdk/jfx/tags
 
