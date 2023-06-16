@@ -1,8 +1,8 @@
 diff --git a/build.gradle b/build.gradle
-index 6baaeca449..3185096aca 100644
+index 5de3785ccd..ff121fe6d1 100644
 --- a/build.gradle
 +++ b/build.gradle
-@@ -307,11 +307,11 @@ ext.MAVEN_GROUP_ID = "org.openjfx"
+@@ -314,11 +314,11 @@ ext.MAVEN_GROUP_ID = "org.openjfx"
  // such and we could probably make it work.
  if (!IS_MAC && !IS_WINDOWS && !IS_LINUX) fail("Unsupported build OS ${OS_NAME}")
  if (IS_WINDOWS && OS_ARCH != "x86" && OS_ARCH != "amd64") {
@@ -11,7 +11,7 @@ index 6baaeca449..3185096aca 100644
  } else if (IS_MAC && OS_ARCH != "x86_64" && OS_ARCH != "aarch64") {
 -    fail("Unknown and unsupported build architecture: $OS_ARCH")
 +    logger.warn("Unknown and unsupported build architecture: $OS_ARCH")
- } else if (IS_LINUX && OS_ARCH != "i386" && OS_ARCH != "amd64" && !IS_AARCH64 && !IS_LOONGARCH64) {
+ } else if (IS_LINUX && OS_ARCH != "i386" && OS_ARCH != "amd64" && !IS_AARCH64 && !IS_LOONGARCH64 && !IS_RISCV64) {
 -    fail("Unknown and unsupported build architecture: $OS_ARCH")
 +    logger.warn("Unknown and unsupported build architecture: $OS_ARCH")
  }
@@ -31,7 +31,7 @@ index 119449246a..20cba4b7bf 100644
  }
  
 diff --git a/gradle/verification-metadata.xml b/gradle/verification-metadata.xml
-index c42d69dae4..4317b2f1f3 100644
+index 3d50c22854..36a3324fd0 100644
 --- a/gradle/verification-metadata.xml
 +++ b/gradle/verification-metadata.xml
 @@ -63,6 +63,11 @@
