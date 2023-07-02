@@ -6,12 +6,12 @@ The branches of this repository publish the JavaFX general-availability release 
 
 | Debian  | Machine | Java    | JavaFX GA | JavaFX EA |
 |:-------:|:-------:|:-------:|:---------:|:---------:|
-| amd64   | x86_64  | amd64   | ✔ | ✔ |
-| arm64   | aarch64 | aarch64 | ✔ | ✔ |
-| armhf   | armv7l  | arm     | ✔ | ✔ |
-| i386    | i686    | i386    | ✔ | ✔ |
-| ppc64el | ppc64le | ppc64le | ✔ | ✔ |
-| s390x   | s390x   | s390x   | ✔ | ✔ |
+| amd64   | x86_64  | amd64   | ✓ | ✓ |
+| arm64   | aarch64 | aarch64 | ✓ | ✓ |
+| armhf   | armv7l  | arm     | ✓ | ✓ |
+| i386    | i686    | i386    | ✓ | ✓ |
+| ppc64el | ppc64le | ppc64le | ✓ | ✓ |
+| s390x   | s390x   | s390x   | ✓ | ✓ |
 
 **Note:** The branches of this repository are named after the Snap channels where the builds are published: *edge*, *beta*, *candidate*, and *stable*. The HEAD branch is *edge*, and merges follow the Snap package releases from *edge* into *beta*, *beta* into *candidate*, and *candidate* into *stable*.
 
