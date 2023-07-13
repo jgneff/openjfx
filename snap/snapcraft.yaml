@@ -51,11 +51,11 @@ architectures:
 - build-on: s390x
 
 slots:
-  jfx-19-1804:
+  jfx-20-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
-  jfx-20-1804:
+  jfx-21-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
@@ -91,17 +91,17 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      release=20
+      release=21
       giturl=https://github.com/openjdk/jfx.git
       tagurl=https://github.com/openjdk/jfx/tags.atom
 
-      # Gets the JavaFX version from the latest release tag on GitHub
-      #   $1 = JavaFX major version number (jfx.release.major.version)
-      #   $2 = URL of Atom web feed providing recent tags on GitHub
+      # Gets the version from the latest release tag on GitHub
+      #   $1 = feature release number (formerly "major" version)
+      #   $2 = URL of Atom web feed providing recent tags
       getversion() {
-          local major=$1
+          local feature=$1
           local webfeed=$2
-          curl -s "$webfeed" | grep "<title>${major}[.0-9]*+" \
+          curl -s "$webfeed" | grep "<title>${feature}[.0-9]*+" \
               | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|'
       }
 
