@@ -141,15 +141,6 @@ parts:
           . /tmp/snapcraft-project-version
       fi
 
-      # Applies patches for building on armhf, i386, ppc64el, and s390x
-      case $SNAPCRAFT_TARGET_ARCH in
-          armhf|i386|ppc64el|s390x)
-              for p in "$SNAPCRAFT_PROJECT_DIR"/snap/local/*.patch; do
-                  git apply "$p"
-              done
-              ;;
-      esac
-
       # Adds Java system properties using shell positional parameters
       set --
       if [ -n "${http_proxy:-}" ]; then
