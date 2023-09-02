@@ -51,11 +51,11 @@ architectures:
 - build-on: s390x
 
 slots:
-  jfx-19-1804:
+  jfx-20-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
-  jfx-20-1804:
+  jfx-21-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
@@ -75,7 +75,7 @@ parts:
 
   jfx:
     plugin: nil
-    source: https://github.com/openjdk/jfx20u.git
+    source: https://github.com/openjdk/jfx.git
     source-type: git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
@@ -91,9 +91,9 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      release=20
-      giturl=https://github.com/openjdk/jfx20u.git
-      tagurl=https://github.com/openjdk/jfx20u/tags.atom
+      release=21
+      giturl=https://github.com/openjdk/jfx.git
+      tagurl=https://github.com/openjdk/jfx/tags.atom
 
       # Gets the version from the latest release tag on GitHub
       #   $1 = feature release number (formerly "major" version)
