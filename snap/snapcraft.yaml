@@ -75,7 +75,7 @@ parts:
 
   jfx:
     plugin: nil
-    source: https://github.com/openjdk/jfx.git
+    source: https://github.com/openjdk/jfx21u.git
     source-type: git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
@@ -92,8 +92,8 @@ parts:
     - libxxf86vm-dev
     override-pull: |
       release=21
-      giturl=https://github.com/openjdk/jfx.git
-      tagurl=https://github.com/openjdk/jfx/tags.atom
+      giturl=https://github.com/openjdk/jfx21u.git
+      tagurl=https://github.com/openjdk/jfx21u/tags.atom
 
       # Gets the version from the latest release tag on GitHub
       #   $1 = feature release number (formerly "major" version)
