@@ -1,5 +1,5 @@
 # snapcraft.yaml - builds a Snap package of OpenJFX
-# Copyright (C) 2020-2023 John Neffenger
+# Copyright (C) 2020-2024 John Neffenger
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ parts:
 
   jfx:
     plugin: nil
-    source: https://github.com/openjdk/jfx.git
+    source: https://github.com/openjdk/jfx22u.git
     source-type: git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
@@ -92,8 +92,8 @@ parts:
     - libxxf86vm-dev
     override-pull: |
       release=22
-      giturl=https://github.com/openjdk/jfx.git
-      tagurl=https://github.com/openjdk/jfx/tags.atom
+      giturl=https://github.com/openjdk/jfx22u.git
+      tagurl=https://github.com/openjdk/jfx22u/tags.atom
 
       # Gets the version from the latest release tag on GitHub
       #   $1 = feature release number (formerly "major" version)
@@ -101,7 +101,7 @@ parts:
       getversion() {
           local feature=$1
           local webfeed=$2
-          curl -s "$webfeed" | grep "<title>${feature}[.0-9]*+" \
+          curl -s "$webfeed" | grep "<title>${feature}[.0-9]*+[^0]" \
               | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|'
       }
 
