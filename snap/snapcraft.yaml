@@ -23,7 +23,7 @@ description: |
   rich client applications that operate consistently across a diverse
   set of platforms.
 
-  This package, together with OpenJDK 17 or later, provides everything
+  This package, together with OpenJDK 21 or later, provides everything
   you need to develop a JavaFX application on Linux, including all
   of the latest modular JAR files, native libraries, JMOD archives,
   API documentation, and source code of JavaFX.
@@ -83,8 +83,6 @@ parts:
     - openjdk/latest/stable
     build-packages:
     - curl
-    - default-jdk-headless
-    - openjdk-17-jdk-headless
     - pkg-config
     - libgtk2.0-dev
     - libxtst-dev
@@ -123,7 +121,7 @@ parts:
           snapcraftctl pull
       fi
     build-environment:
-    - JAVA_HOME: /usr/lib/jvm/java-17-openjdk-$SNAPCRAFT_TARGET_ARCH
+    - JAVA_HOME: /snap/openjdk/current/jdk
     - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
     override-build: |
       # Gets the host and port from a proxy URL
