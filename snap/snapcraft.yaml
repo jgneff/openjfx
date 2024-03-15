@@ -23,7 +23,7 @@ description: |
   rich client applications that operate consistently across a diverse
   set of platforms.
 
-  This package, together with OpenJDK 11 or later, provides everything
+  This package, together with OpenJDK 17 or later, provides everything
   you need to develop a JavaFX application on Linux, including all
   of the latest modular JAR files, native libraries, JMOD archives,
   API documentation, and source code of JavaFX.
@@ -35,7 +35,7 @@ description: |
   Java and OpenJDK are trademarks or registered trademarks of Oracle
   and/or its affiliates.
 
-version: '19.0.2.1+1'
+adopt-info: jfx
 license: GPL-2.0-with-classpath-exception
 
 base: core18
@@ -51,11 +51,11 @@ architectures:
 - build-on: s390x
 
 slots:
-  jfx-18-1804:
+  jfx-20-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
-  jfx-19-1804:
+  jfx-21-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
@@ -75,7 +75,7 @@ parts:
 
   jfx:
     plugin: nil
-    source: https://github.com/openjdk/jfx.git
+    source: https://github.com/openjdk/jfx21u.git
     source-type: git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
@@ -91,17 +91,17 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      release=19
-      giturl=https://github.com/openjdk/jfx.git
-      tagurl=https://github.com/openjdk/jfx/tags.atom
+      release=21
+      giturl=https://github.com/openjdk/jfx21u.git
+      tagurl=https://github.com/openjdk/jfx21u/tags.atom
 
-      # Gets the JavaFX version from the latest release tag on GitHub
-      #   $1 = JavaFX major version number (jfx.release.major.version)
-      #   $2 = URL of Atom web feed providing recent tags on GitHub
+      # Gets the version from the latest release tag on GitHub
+      #   $1 = feature release number (formerly "major" version)
+      #   $2 = URL of Atom web feed providing recent tags
       getversion() {
-          local major=$1
+          local feature=$1
           local webfeed=$2
-          curl -s "$webfeed" | grep "<title>${major}[.0-9]*+" \
+          curl -s "$webfeed" | grep "<title>${feature}[.0-9]*+" \
               | sed -E -e '1!d' -e 's| *<title>(.*)</title>|\1|'
       }
 
