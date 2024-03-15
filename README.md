@@ -1,8 +1,8 @@
 ![OpenJFX: Current JavaFX release and early-access builds](images/banner.svg)
 
-OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx) on GitHub. These packages, together with OpenJDK 17 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
+OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx) on GitHub. These packages, together with OpenJDK 21 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
-The branches of this repository publish the JavaFX general-availability release (JavaFX GA) and early-access builds (JavaFX EA) for six hardware platforms. They are listed below by their Debian architecture (`dpkg --print-architecture`), machine hardware name (`uname -m`), and Java architecture (`os.arch`):
+The branches of this repository publish the JavaFX general-availability (GA) release and early-access (EA) builds for six hardware platforms. They are listed below by their Debian architecture, machine hardware name, and Java architecture:
 
 | Debian  | Machine | Java    | JavaFX GA | JavaFX EA |
 |:-------:|:-------:|:-------:|:---------:|:---------:|
@@ -41,11 +41,11 @@ The table below contains the most recent schedule for OpenJFX. The channel colum
 
 | Date       | Phase                    | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------ |:------:|:---------:|:----:|:----:|
-| 2023-03-21 | General Availability     | 20 | ←  | ←  | 21 |
-| 2023-07-13 | Rampdown Phase One       | 20 | ←  | 21 | 22 |
-| 2023-08-03 | Rampdown Phase Two       | 20 | ←  | 21 | 22 |
-| 2023-08-31 | Release Candidate Freeze | 20 | 21 | ←  | 22 |
 | 2023-09-19 | General Availability     | 21 | ←  | ←  | 22 |
+| 2024-01-11 | Rampdown Phase One       | 21 | ←  | 22 | 23 |
+| 2024-02-01 | Rampdown Phase Two       | 21 | ←  | 22 | 23 |
+| 2024-02-29 | Release Candidate Freeze | 21 | 22 | ←  | 23 |
+| 2024-03-19 | General Availability     | 22 | ←  | ←  | 23 |
 
 The leftwards arrow (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level in the column to its left. If the channel is re-opened, packages will once again be selected from the original channel.
 
@@ -67,21 +67,7 @@ $ sudo snap install openjfx --beta
 $ sudo snap install openjfx --edge
 ```
 
-You'll also need the Java Development Kit (JDK). On Debian-based systems such as Ubuntu, you can install the latest fully-supported OpenJDK release and documentation with the command:
-
-```console
-$ sudo apt install default-jdk default-jdk-doc
-```
-
-On Fedora-based systems, you can install the latest OpenJDK release and documentation with the commands:
-
-```console
-$ sudo dnf install java-latest-openjdk-devel
-$ sudo dnf install java-latest-openjdk-jmods
-$ sudo dnf install java-latest-openjdk-javadoc
-```
-
-On any Linux system, you can install the [OpenJDK Snap package](https://snapcraft.io/openjdk) to get the current JDK release or an early-access build:
+You will also need the Java Development Kit (JDK). You can install the [OpenJDK Snap package](https://snapcraft.io/openjdk) to get the current JDK release or an early-access build:
 
 ```console
 $ sudo snap install openjdk
@@ -92,8 +78,8 @@ When you install the OpenJDK and OpenJFX Snap packages, they connect automatical
 ```console
 $ snap connections openjfx
 Interface             Plug                 Slot                 Notes
-content               -                    openjfx:jfx-19-1804  -
-content[jfx-20-1804]  openjdk:jfx-20-1804  openjfx:jfx-20-1804  -
+content               -                    openjfx:jfx-20-1804  -
+content[jfx-21-1804]  openjdk:jfx-21-1804  openjfx:jfx-21-1804  -
 ```
 
 This connection provides the OpenJDK Snap package with read access to the OpenJFX Software Development Kit (SDK) and shared libraries so that you can compile, package, link, and run JavaFX applications.
@@ -104,16 +90,16 @@ The steps in building the packages are open and transparent so that you can gain
 
 | Snap Channel | Build File          | Source Code         | Snap Package           |
 | ------------ | ------------------- | ------------------- | ---------------------- |
-| candidate    | [snapcraft.yaml][1] | [openjdk/jfx20u][4] | [openjfx-candidate][7] |
-| beta         | [snapcraft.yaml][2] | [openjdk/jfx][5]    | [openjfx-beta][8]      |
+| candidate    | [snapcraft.yaml][1] | [openjdk/jfx21u][4] | [openjfx-candidate][7] |
+| beta         | [snapcraft.yaml][2] | [openjdk/jfx22u][5] | [openjfx-beta][8]      |
 | edge         | [snapcraft.yaml][3] | [openjdk/jfx][6]    | [openjfx-edge][9]      |
 
 [1]: https://github.com/jgneff/openjfx/blob/candidate/snap/snapcraft.yaml
 [2]: https://github.com/jgneff/openjfx/blob/beta/snap/snapcraft.yaml
 [3]: https://github.com/jgneff/openjfx/blob/edge/snap/snapcraft.yaml
 
-[4]: https://github.com/openjdk/jfx20u/tags
-[5]: https://github.com/openjdk/jfx/tags
+[4]: https://github.com/openjdk/jfx21u/tags
+[5]: https://github.com/openjdk/jfx22u/tags
 [6]: https://github.com/openjdk/jfx/tags
 
 [7]: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate
