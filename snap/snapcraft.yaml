@@ -28,7 +28,9 @@ description: |
   of the latest modular JAR files, native libraries, JMOD archives,
   API documentation, and source code of JavaFX.
 
-  To get started, see the README file for this package on GitHub:
+  Installing this package does not replace the JavaFX provided by your
+  Linux distribution but instead allows you to use both of them side by
+  side. To get started, see the README file for this package on GitHub:
 
   https://github.com/jgneff/openjfx
 

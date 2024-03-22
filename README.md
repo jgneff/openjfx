@@ -2,6 +2,21 @@
 
 OpenJFX is the open-source project that develops JavaFX. This project builds [Snap packages](https://snapcraft.io/openjfx) of OpenJFX directly from its [source repository](https://github.com/openjdk/jfx) on GitHub. These packages, together with OpenJDK 21 or later, provide everything you need to develop a JavaFX application on Linux, including all of the latest JAR files, native libraries, JMOD archives, API documentation, and source code of JavaFX.
 
+## Quick Setup
+
+Below are some quick setup instructions for developers on Debian-based systems who are familiar with the Linux command line. For Fedora-based systems, see the [Usage](#usage) section later.
+
+Set the following two environment variables: one for the location of the JavaFX JAR files and native libraries, and the other for the location of the JavaFX JMOD archives.
+
+```console
+$ export JAVAFX_LIB=/snap/openjfx/current/sdk/lib
+$ export JAVAFX_MOD=/snap/openjfx/current/sdk/jmods
+```
+
+Use these variables in arguments to the `java`, `javac`, `javadoc`, `jlink`, and `jpackage` tools of the JDK when you build your JavaFX application. For more information, see the [Usage](#usage) section later.
+
+## Repository
+
 The branches of this repository publish the JavaFX general-availability (GA) release and early-access (EA) builds for six hardware platforms. They are listed below by their Debian architecture, machine hardware name, and Java architecture:
 
 | Debian  | Machine | Java    | JavaFX GA | JavaFX EA |
@@ -13,9 +28,9 @@ The branches of this repository publish the JavaFX general-availability (GA) rel
 | ppc64el | ppc64le | ppc64le | ✓ | ✓ |
 | s390x   | s390x   | s390x   | ✓ | ✓ |
 
-**Note:** The branches of this repository are named after the Snap channels where the builds are published: *edge*, *beta*, *candidate*, and *stable*. The HEAD branch is *edge*, and merges follow the Snap package releases from *edge* into *beta*, *beta* into *candidate*, and *candidate* into *stable*.
+The branches of this repository are named after the Snap channels where the builds are published: *edge*, *beta*, *candidate*, and *stable*. The HEAD branch is *edge*, and merges follow the Snap package releases from *edge* into *beta*, *beta* into *candidate*, and *candidate* into *stable*.
 
-## See also
+## See Also
 
 This project is one of four that I created to gain control of my development environment:
 
@@ -49,7 +64,7 @@ The table below contains the most recent schedule for OpenJFX. The channel colum
 
 The leftwards arrow (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level in the column to its left. If the channel is re-opened, packages will once again be selected from the original channel.
 
-## Install
+## Installation
 
 Install the OpenJFX Snap package with the command:
 
@@ -78,8 +93,7 @@ When you install the OpenJDK and OpenJFX Snap packages, they connect automatical
 ```console
 $ snap connections openjfx
 Interface             Plug                 Slot                 Notes
-content               -                    openjfx:jfx-20-1804  -
-content[jfx-21-1804]  openjdk:jfx-21-1804  openjfx:jfx-21-1804  -
+content[jfx-22-1804]  openjdk:jfx-22-1804  openjfx:jfx-22-1804  -
 ```
 
 This connection provides the OpenJDK Snap package with read access to the OpenJFX Software Development Kit (SDK) and shared libraries so that you can compile, package, link, and run JavaFX applications.
@@ -120,17 +134,17 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build log. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The `image-info` section of the manifest provides a link to the package's page on Launchpad with its build status, including the complete log file from the container that ran the build. You can use this information to verify that the OpenJFX Snap package installed on your system was built from source on Launchpad using only the software in [Ubuntu 18.04 LTS](https://cloud-images.ubuntu.com/bionic/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, I'll demonstrate how I verify the OpenJFX Snap package installed on my system at the time of this writing. The `snap info` command shows that I installed OpenJFX version 19+11 with revision 512, the revision for the *amd64* architecture:
+For example, I'll demonstrate how I verify the OpenJFX Snap package installed on my system at the time of this writing. The `snap info` command shows that I installed OpenJFX version 22+30 with revision 1198, the revision for the *amd64* architecture:
 
 ```console
 $ snap info openjfx
 ...
 channels:
-  latest/stable:    19+11 2022-09-16 (512) 103MB -
+  latest/stable:    22+30 2024-03-19 (1198) 113MB -
   latest/candidate: ↑
   latest/beta:      ↑
-  latest/edge:      20+3  2022-09-16 (511) 103MB -
-installed:          19+11            (512) 103MB -
+  latest/edge:      23+9  2024-03-14 (1192) 113MB -
+installed:          22+30            (1198) 113MB -
 ```
 
 The following command prints the build information from the manifest file:
@@ -138,30 +152,33 @@ The following command prints the build information from the manifest file:
 ```console
 $ grep -A3 image-info /snap/openjfx/current/snap/manifest.yaml
 image-info:
-  build-request-id: lp-74095810
-  build-request-timestamp: '2022-09-16T16:00:56Z'
-  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1882555
+  build-request-id: lp-86834142
+  build-request-timestamp: '2024-03-15T02:21:29Z'
+  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2421443
 ```
 
-The `build_url` in the manifest is a link to the [page on Launchpad](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/1882555) with the package's **Build status** and **Store status**. The store status shows that Launchpad uploaded revision 512 to the Snap Store, which matches the revision installed on my system. The build status shows a link to the log file with the label *buildlog*.
+The `build_url` in the manifest is a link to the [page on Launchpad](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2421443) with the package's **Build status** and **Store status**. The store status shows that Launchpad uploaded revision 1198 to the Snap Store, which matches the revision installed on my system. The build status shows a link to the log file with the label [buildlog](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2421443/+files/buildlog_snap_ubuntu_bionic_amd64_openjfx-candidate_BUILDING.txt.gz).
 
-The end of the log file contains a line with the SHA512 checksum of the package just built, shown below with the checksum edited to fit on this page:
+The end of the log file contains a line with the SHA512 checksum of the package just built, shown below with the checksum split to fit on this page:
 
 ```
 Snapping...
-Snapped openjfx_19+11_amd64.snap
-Starting Snapcraft 7.1.3
-Logging execution to
-  '/root/.cache/snapcraft/log/snapcraft-20220916-160844.287206.log'
-da3302f078740d55...0a38cea62d6b18b1  openjfx_19+11_amd64.snap
+Snapped openjfx_22+30_amd64.snap
+Starting Snapcraft 7.5.4
+Logging execution to '/root/.local/state/snapcraft/log/snapcraft-20240315-022905.705991.log'
+3baa99cf76d928f51965f40c53b2c5a83d4c57fcdb9625b852681f68c50a5978
+24008ed725a74457d549f906c12fa726e225ec8db4e71433ff36967192880395
+  openjfx_22+30_amd64.snap
 Revoking proxy token...
 ```
 
 The command below prints the checksum of the package installed on my system:
 
 ```console
-$ sudo sha512sum /var/lib/snapd/snaps/openjfx_512.snap
-da3302f078740d55...0a38cea62d6b18b1  /var/lib/snapd/snaps/openjfx_512.snap
+$ sudo sha512sum /var/lib/snapd/snaps/openjfx_1198.snap
+3baa99cf76d928f51965f40c53b2c5a83d4c57fcdb9625b852681f68c50a5978
+24008ed725a74457d549f906c12fa726e225ec8db4e71433ff36967192880395
+  /var/lib/snapd/snaps/openjfx_1198.snap
 ```
 
 The two checksum strings are identical. Using this procedure, I verified that the OpenJFX Snap package installed on my system and the OpenJFX Snap package built and uploaded to the Snap Store by Launchpad are in fact the exact same package. For more information, see [Launchpad Bug #1979844](https://bugs.launchpad.net/launchpad/+bug/1979844), "Allow verifying that a snap recipe build corresponds to a store revision."
@@ -183,7 +200,7 @@ The `openjfx` command prints the location of a file that defines the environment
 
 ```console
 $ openjfx
-/var/snap/openjfx/x1/openjfx.env
+/var/snap/openjfx/1198/openjfx.env
 ```
 
 The file exports the `JAVAFX_LIB` and `JAVAFX_MOD` environment variables:
@@ -191,22 +208,22 @@ The file exports the `JAVAFX_LIB` and `JAVAFX_MOD` environment variables:
 ```console
 $ cat $(openjfx)
 # Source this file for OpenJFX environment variables
-export JAVAFX_LIB=/snap/openjfx/x1/sdk/lib
-export JAVAFX_MOD=/snap/openjfx/x1/sdk/jmods
+export JAVAFX_LIB=/snap/openjfx/1198/sdk/lib
+export JAVAFX_MOD=/snap/openjfx/1198/sdk/jmods
 ```
 
 To set the variables in your current shell, use the `source` or "dot" (`.`) command to read and execute the commands from the file:
 
 ```console
-$ . $(openjfx)
+$ source $(openjfx)
 ```
 
 You can then verify that `JAVAFX_LIB` and `JAVAFX_MOD` are defined with:
 
 ```console
 $ printenv | grep JAVAFX
-JAVAFX_LIB=/snap/openjfx/x1/sdk/lib
-JAVAFX_MOD=/snap/openjfx/x1/sdk/jmods
+JAVAFX_LIB=/snap/openjfx/1198/sdk/lib
+JAVAFX_MOD=/snap/openjfx/1198/sdk/jmods
 ```
 
 You can also manually set the environment variables to fixed locations that don't depend on the Snap revision number, as shown below:
