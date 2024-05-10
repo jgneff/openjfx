@@ -56,11 +56,11 @@ The table below contains the most recent schedule for OpenJFX. The channel colum
 
 | Date       | Phase                    | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------ |:------:|:---------:|:----:|:----:|
-| 2023-09-19 | General Availability     | 21 | ←  | ←  | 22 |
-| 2024-01-11 | Rampdown Phase One       | 21 | ←  | 22 | 23 |
-| 2024-02-01 | Rampdown Phase Two       | 21 | ←  | 22 | 23 |
-| 2024-02-29 | Release Candidate Freeze | 21 | 22 | ←  | 23 |
 | 2024-03-19 | General Availability     | 22 | ←  | ←  | 23 |
+| 2024-07-11 | Rampdown Phase One       | 22 | ←  | 23 | 24 |
+| 2024-08-01 | Rampdown Phase Two       | 22 | ←  | 23 | 24 |
+| 2024-08-29 | Release Candidate Freeze | 22 | 23 | ←  | 24 |
+| 2024-09-17 | General Availability     | 23 | ←  | ←  | 24 |
 
 The leftwards arrow (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level in the column to its left. If the channel is re-opened, packages will once again be selected from the original channel.
 
