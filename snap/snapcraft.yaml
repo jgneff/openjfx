@@ -23,12 +23,14 @@ description: |
   rich client applications that operate consistently across a diverse
   set of platforms.
 
-  This package, together with OpenJDK 17 or later, provides everything
+  This package, together with OpenJDK 21 or later, provides everything
   you need to develop a JavaFX application on Linux, including all
   of the latest modular JAR files, native libraries, JMOD archives,
   API documentation, and source code of JavaFX.
 
-  To get started, see the README file for this package on GitHub:
+  Installing this package does not replace the JavaFX provided by your
+  Linux distribution but instead allows you to use both of them side by
+  side. To get started, see the README file for this package on GitHub:
 
   https://github.com/jgneff/openjfx
 
@@ -51,11 +53,11 @@ architectures:
 - build-on: s390x
 
 slots:
-  jfx-21-1804:
+  jfx-22-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
-  jfx-22-1804:
+  jfx-23-1804:
     interface: content
     source:
       read: [$SNAP/sdk, $SNAP/usr/lib]
@@ -75,25 +77,24 @@ parts:
 
   jfx:
     plugin: nil
-    source: https://github.com/openjdk/jfx22u.git
+    source: https://github.com/openjdk/jfx23u.git
     source-type: git
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
     build-snaps:
+    - bootjdk/latest/edge
     - openjdk/latest/stable
     build-packages:
     - curl
-    - default-jdk-headless
-    - openjdk-17-jdk-headless
     - pkg-config
     - libgtk2.0-dev
     - libxtst-dev
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      release=22
-      giturl=https://github.com/openjdk/jfx22u.git
-      tagurl=https://github.com/openjdk/jfx22u/tags.atom
+      release=23
+      giturl=https://github.com/openjdk/jfx23u.git
+      tagurl=https://github.com/openjdk/jfx23u/tags.atom
 
       # Gets the version from the latest release tag on GitHub
       #   $1 = feature release number (formerly "major" version)
@@ -123,7 +124,7 @@ parts:
           snapcraftctl pull
       fi
     build-environment:
-    - JAVA_HOME: /usr/lib/jvm/java-17-openjdk-$SNAPCRAFT_TARGET_ARCH
+    - JAVA_HOME: /snap/bootjdk/current/jdk
     - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
     override-build: |
       # Gets the host and port from a proxy URL
