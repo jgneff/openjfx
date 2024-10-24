@@ -23,7 +23,7 @@ description: |
   rich client applications that operate consistently across a diverse
   set of platforms.
 
-  This package, together with OpenJDK 21 or later, provides everything
+  This package, together with OpenJDK 22 or later, provides everything
   you need to develop a JavaFX application on Linux, including all
   of the latest modular JAR files, native libraries, JMOD archives,
   API documentation, and source code of JavaFX.
@@ -82,7 +82,6 @@ parts:
     source-tag: $SNAPCRAFT_PROJECT_VERSION
     source-depth: 1
     build-snaps:
-    - bootjdk/latest/edge
     - openjdk/latest/stable
     build-packages:
     - curl
@@ -124,7 +123,7 @@ parts:
           snapcraftctl pull
       fi
     build-environment:
-    - JAVA_HOME: /snap/bootjdk/current/jdk
+    - JAVA_HOME: /snap/openjdk/current/jdk
     - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
     override-build: |
       # Gets the host and port from a proxy URL
