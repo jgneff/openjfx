@@ -53,11 +53,11 @@ architectures:
 - build-on: s390x
 
 slots:
-  jfx-23-2204:
+  jfx-24-2204:
     interface: content
     source:
       read: [$SNAP/sdk]
-  jfx-24-2204:
+  jfx-25-2204:
     interface: content
     source:
       read: [$SNAP/sdk]
@@ -90,7 +90,7 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      release=24
+      release=25
       gitrepo=https://github.com/openjdk/jfx.git
       tagfeed=https://github.com/openjdk/jfx/tags.atom
 
