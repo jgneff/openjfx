@@ -53,7 +53,7 @@ architectures:
 - build-on: s390x
 
 slots:
-  jfx-23-2204:
+  jfx-23-1804:
     interface: content
     source:
       read: [$SNAP/sdk]
