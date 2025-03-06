@@ -59,8 +59,7 @@ slots:
       read: [$SNAP/sdk]
   jfx-24-2204:
     interface: content
-    source:
-      read: [$SNAP/sdk]
+    read: [$SNAP/sdk]
 
 lint:
   ignore:
