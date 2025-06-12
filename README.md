@@ -54,11 +54,11 @@ The table below contains the most recent schedule for OpenJFX. The channel colum
 
 | Date       | Phase                    | Stable | Candidate | Beta | Edge |
 | ---------- | ------------------------ |:------:|:---------:|:----:|:----:|
-| 2024-09-17 | General Availability     | 23 | ←  | ←  | 24 |
-| 2025-01-16 | Rampdown Phase One       | 23 | ←  | 24 | 25 |
-| 2025-02-06 | Rampdown Phase Two       | 23 | ←  | 24 | 25 |
-| 2025-02-27 | Release Candidate Freeze | 23 | 24 | ←  | 25 |
 | 2025-03-18 | General Availability     | 24 | ←  | ←  | 25 |
+| 2025-07-17 | Rampdown Phase One       | 24 | ←  | 25 | 26 |
+| 2025-08-07 | Rampdown Phase Two       | 24 | ←  | 25 | 26 |
+| 2025-08-28 | Release Candidate Freeze | 24 | 25 | ←  | 26 |
+| 2025-09-16 | General Availability     | 25 | ←  | ←  | 26 |
 
 The leftwards arrow (←) indicates that the channel is closed. When a specific risk-level channel is closed, the Snap Store will select the package from the more conservative risk level in the column to its left. If the channel is re-opened, packages will once again be selected from the original channel.
 
@@ -120,19 +120,19 @@ The [Launchpad build farm](https://launchpad.net/builders) runs each build in a 
 
 ## Verify
 
-Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build log. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The `image-info` section of the manifest provides a link to the package's page on Launchpad with its build status, including the complete log file from the container that ran the build. You can use this information to verify that the OpenJFX Snap package installed on your system was built from source on Launchpad using only the software in [Ubuntu 22.04 LTS](https://cloud-images.ubuntu.com/jammy/) and the official [Gradle releases](https://gradle.org/releases/).
+Each OpenJFX package provides a software bill of materials (SBOM) and a link to its build log. This information is contained in a file called `manifest.yaml` in the directory `/snap/openjfx/current/snap`. The `image-info` section of the manifest provides a link to the package's page on Launchpad with its build status, including the complete log file from the container that ran the build. You can use this information to verify that the OpenJFX Snap package installed on your system was built from source on Launchpad using only the software in [Ubuntu 22.04 LTS](https://cloud-images.ubuntu.com/jammy/current/) and the official [Gradle releases](https://gradle.org/releases/).
 
-For example, I'll demonstrate how I verify the OpenJFX Snap package installed on my system at the time of this writing. The `snap info` command shows that I installed OpenJFX version 23.0.2+3 with revision 1432, the revision for the *amd64* architecture:
+For example, I'll demonstrate how I verify the OpenJFX Snap package installed on my system at the time of this writing. The `snap info` command shows that I installed OpenJFX version 24.0.1+4 with revision 1511, the revision for the *amd64* architecture:
 
 ```console
 $ snap info openjfx
 ...
 channels:
-  latest/stable:    23.0.2+3 2025-02-13 (1432) 114MB -
+  latest/stable:    24.0.1+4 2025-04-16 (1511) 57MB -
   latest/candidate: ↑
   latest/beta:      ↑
-  latest/edge:      24+28    2025-02-22 (1447)  57MB -
-installed:          23.0.2+3            (1432) 114MB -
+  latest/edge:      25+19    2025-06-06 (1541) 57MB -
+installed:          24.0.1+4            (1511) 57MB -
 ```
 
 The following command prints the build information from the manifest file:
@@ -140,33 +140,31 @@ The following command prints the build information from the manifest file:
 ```console
 $ grep -A3 image-info /snap/openjfx/current/snap/manifest.yaml
 image-info:
-  build-request-id: lp-95368815
-  build-request-timestamp: '2025-01-21T16:43:16Z'
-  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2709147
+  build-request-id: lp-97610557
+  build-request-timestamp: '2025-04-15T18:25:06Z'
+  build_url: https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2780814
 ```
 
-The `build_url` in the manifest is a link to the [page on Launchpad](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2709147) with the package's **Build status** and **Store status**. The store status shows that Launchpad uploaded revision 1432 to the Snap Store, which matches the revision installed on my system. The build status shows a link to the log file with the label [buildlog](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2709147/+files/buildlog_snap_ubuntu_bionic_amd64_openjfx-candidate_BUILDING.txt.gz).
+The `build_url` in the manifest is a link to the [page on Launchpad](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2780814) with the package's **Build status** and **Store status**. The store status shows that Launchpad uploaded revision 1511 to the Snap Store, which matches the revision installed on my system. The build status shows a link to the log file with the label [buildlog](https://launchpad.net/~jgneff/openjfx-snap/+snap/openjfx-candidate/+build/2780814/+files/buildlog_snap_ubuntu_jammy_amd64_openjfx-candidate_BUILDING.txt.gz).
 
 The end of the log file contains a line with the SHA512 checksum of the package just built, shown below with the checksum split to fit on this page:
 
 ```
-Snapping...
-Snapped openjfx_23.0.2+3_amd64.snap
-Starting Snapcraft 7.5.8
-Logging execution to '/root/.local/state/snapcraft/log/snapcraft-20250121-165446.088441.log'
-8caf3988cbb9154c7693ff4e525d8f5ee6353caee805150ec39cee4a483c1b20
-7b1a6bd6d04c3144ad25e11967cb139a513cd5194e18694f48e1bd75be1d764e
-  openjfx_23.0.2+3_amd64.snap
+Creating snap package...
+Created snap package openjfx_24.0.1+4_amd64.snap
+730c5ce62ce37876020033d6305d84785ad081a819557a318079181afa2f80a1
+1777b29d17ecbe8295e942959627b3350938a8d783ddbc95bf1f083221dd1a21
+  openjfx_24.0.1+4_amd64.snap
 Revoking proxy token...
 ```
 
 The command below prints the checksum of the package installed on my system:
 
 ```console
-$ sudo sha512sum /var/lib/snapd/snaps/openjfx_1432.snap
-8caf3988cbb9154c7693ff4e525d8f5ee6353caee805150ec39cee4a483c1b20
-7b1a6bd6d04c3144ad25e11967cb139a513cd5194e18694f48e1bd75be1d764e
-  /var/lib/snapd/snaps/openjfx_1432.snap
+$ sudo sha512sum /var/lib/snapd/snaps/openjfx_1511.snap
+730c5ce62ce37876020033d6305d84785ad081a819557a318079181afa2f80a1
+1777b29d17ecbe8295e942959627b3350938a8d783ddbc95bf1f083221dd1a21
+  /var/lib/snapd/snaps/openjfx_1511.snap
 ```
 
 The two checksum strings are identical. Using this procedure, I verified that the OpenJFX Snap package installed on my system and the OpenJFX Snap package built and uploaded to the Snap Store by Launchpad are in fact the exact same package. For more information, see [Launchpad Bug #1979844](https://bugs.launchpad.net/launchpad/+bug/1979844), "Allow verifying that a snap recipe build corresponds to a store revision."
@@ -188,7 +186,7 @@ The `openjfx` command prints the location of a file that defines the environment
 
 ```console
 $ openjfx
-/var/snap/openjfx/1432/openjfx.env
+/var/snap/openjfx/1511/openjfx.env
 ```
 
 The file exports the `JAVAFX_LIB` and `JAVAFX_MOD` environment variables:
@@ -196,8 +194,8 @@ The file exports the `JAVAFX_LIB` and `JAVAFX_MOD` environment variables:
 ```console
 $ cat $(openjfx)
 # Source this file for OpenJFX environment variables
-export JAVAFX_LIB=/snap/openjfx/1432/sdk/lib
-export JAVAFX_MOD=/snap/openjfx/1432/sdk/jmods
+export JAVAFX_LIB=/snap/openjfx/1511/sdk/lib
+export JAVAFX_MOD=/snap/openjfx/1511/sdk/jmods
 ```
 
 To set the variables in your current shell, use the `source` or "dot" (`.`) command to read and execute the commands from the file:
@@ -210,8 +208,8 @@ You can then verify that `JAVAFX_LIB` and `JAVAFX_MOD` are defined with:
 
 ```console
 $ printenv | grep JAVAFX
-JAVAFX_LIB=/snap/openjfx/1432/sdk/lib
-JAVAFX_MOD=/snap/openjfx/1432/sdk/jmods
+JAVAFX_LIB=/snap/openjfx/1511/sdk/lib
+JAVAFX_MOD=/snap/openjfx/1511/sdk/jmods
 ```
 
 You can also manually set the environment variables to fixed locations that don't depend on the Snap revision number, as shown below:
@@ -240,7 +238,7 @@ To run the build remotely on Launchpad, enter the command:
 $ snapcraft remote-build
 ```
 
-See the [Snapcraft Overview](https://snapcraft.io/docs/snapcraft-overview) page for more information about building Snap packages.
+See the [Snapcraft Documentation](https://documentation.ubuntu.com/snapcraft/stable/) for more information about building Snap packages.
 
 ## License
 
