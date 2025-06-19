@@ -81,7 +81,7 @@ parts:
     plugin: nil
     build-snaps:
     - openjdk/latest/stable
-    - bootjdk/latest/beta
+    - bootjdk/latest/edge
     build-packages:
     - curl
     - pkg-config
