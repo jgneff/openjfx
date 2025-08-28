@@ -53,10 +53,10 @@ architectures:
 - build-on: [s390x]
 
 slots:
-  jfx-23-1804:
+  jfx-24-2204:
     interface: content
     read: [$SNAP/sdk]
-  jfx-24-2204:
+  jfx-25-2204:
     interface: content
     read: [$SNAP/sdk]
 
@@ -81,7 +81,7 @@ parts:
     plugin: nil
     build-snaps:
     - openjdk/latest/stable
-    - bootjdk/latest/beta
+    - bootjdk/latest/edge
     build-packages:
     - curl
     - pkg-config
@@ -89,9 +89,9 @@ parts:
     - libgtk-3-dev
     - libxxf86vm-dev
     override-pull: |
-      release=24
-      gitrepo=https://github.com/openjdk/jfx24u.git
-      tagfeed=https://github.com/openjdk/jfx24u/tags.atom
+      release=25
+      gitrepo=https://github.com/openjdk/jfx25u.git
+      tagfeed=https://github.com/openjdk/jfx25u/tags.atom
 
       # Gets the version from the latest release tag on GitHub
       #   $1 = feature release number (formerly "major" version)
