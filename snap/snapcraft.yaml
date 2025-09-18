@@ -23,7 +23,7 @@ description: |
   rich client applications that operate consistently across a diverse
   set of platforms.
 
-  This package, together with OpenJDK 23 or later, provides everything
+  This package, together with OpenJDK 24 or later, provides everything
   you need to develop a JavaFX application on Linux, including all
   of the latest modular JAR files, native libraries, JMOD archives,
   API documentation, and source code of JavaFX.
@@ -81,6 +81,7 @@ parts:
     plugin: nil
     build-snaps:
     - openjdk/latest/stable
+    - bootjdk/latest/edge
     build-packages:
     - curl
     - pkg-config
@@ -107,7 +108,7 @@ parts:
       craftctl set version="$version"
       git clone --branch "$version" --depth 1 $gitrepo "$CRAFT_PART_SRC"
     build-environment:
-    - JAVA_HOME: /snap/openjdk/current/jdk
+    - JAVA_HOME: /snap/bootjdk/current/jdk
     - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
     override-build: |
       # Gets the host and port from a proxy URL
