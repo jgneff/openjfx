@@ -81,7 +81,6 @@ parts:
     plugin: nil
     build-snaps:
     - openjdk/latest/stable
-    - bootjdk/latest/edge
     build-packages:
     - curl
     - pkg-config
@@ -108,7 +107,7 @@ parts:
       craftctl set version="$version"
       git clone --branch "$version" --depth 1 $gitrepo "$CRAFT_PART_SRC"
     build-environment:
-    - JAVA_HOME: /snap/bootjdk/current/jdk
+    - JAVA_HOME: /snap/openjdk/current/jdk
     - JDK_DOCS: file:///snap/openjdk/current/jdk/docs/api
     override-build: |
       # Gets the host and port from a proxy URL
