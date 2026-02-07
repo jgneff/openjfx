@@ -97,8 +97,8 @@ parts:
     - libxxf86vm-dev
     override-pull: |
       release=26
-      gitrepo=https://github.com/openjdk/jfx.git
-      tagfeed=https://github.com/openjdk/jfx/tags.atom
+      gitrepo=https://github.com/openjdk/jfx26u.git
+      tagfeed=https://github.com/openjdk/jfx26u/tags.atom
 
       # Gets the version from the latest release tag on GitHub
       #   $1 = feature release number (formerly "major" version)
