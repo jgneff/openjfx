@@ -79,9 +79,9 @@ parts:
 
   gradle:
     plugin: dump
-    source: https://services.gradle.org/distributions/gradle-9.2.0-bin.zip
+    source: https://services.gradle.org/distributions/gradle-9.2.1-bin.zip
     source-type: zip
-    source-checksum: sha256/df67a32e86e3276d011735facb1535f64d0d88df84fa87521e90becc2d735444
+    source-checksum: sha256/72f44c9f8ebcb1af43838f45ee5c4aa9c5444898b3468ab3f4af7b6076c5bc3f
     prime: [-*]
 
   jfx:
@@ -145,7 +145,7 @@ parts:
       export SOURCE_DATE_EPOCH
 
       # Builds JavaFX
-      export GRADLE_HOME="$CRAFT_STAGE/gradle-9.2.0"
+      export GRADLE_HOME="$CRAFT_STAGE/gradle-9.2.1"
       version=$(craftctl get version)
       $GRADLE_HOME/bin/gradle --no-daemon "$@" \
           -PPROMOTED_BUILD_NUMBER="${version#*+}" \
